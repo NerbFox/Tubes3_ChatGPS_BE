@@ -158,10 +158,138 @@ function levenshteinDistance(s1, s2) {
     return dp[m][n];
   }
 
+/* Calculator +, -, *, /, ^, (, ) from string */
+function calculate(expression) {
+    // Convert the expression string to an array of tokens
+    let tokens = expression.match(/\d+|\+|\-|\*|\/|\^|\(|\)/g);
+  
+    // Define a function to handle exponentiation
+    function power(base, exponent) {
+      return Math.pow(base, exponent);
+    }
+  
+    // Define a function to handle multiplication and division
+    function multiplyOrDivide(a, op, b) {
+      if (op === "*") {
+        return a * b;
+      } else if (op === "/") {
+        return a / b;
+      }
+    }
+  
+    // Define a function to handle addition and subtraction
+    function addOrSubtract(a, op, b) {
+      if (op === "+") {
+        return a + b;
+      } else if (op === "-") {
+        return a - b;
+      }
+    }
+    console.log("tokens : " + tokens);  
+
+    // calculate the expression using the Shunting Yard algorithm
+    let outputQueue = [];
+    let operatorStack = [];
+
+    let precedence = {
+    "+": 1,
+    "-": 1,
+    "*": 2,
+    "/": 2,
+    "^": 3,
+    };
+    console.log("tokens.length : " + tokens.length);
+    for (let i = 0; i < tokens.length; i++) {
+        let token = tokens[i];
+        // console.log("token : " + token);
+        if (/\d+/.test(token)) {
+            outputQueue.push(Number(token));
+        } else if (token === "(") {
+            operatorStack.push(token);
+        } else if (token === ")") {
+            while (operatorStack.length > 0 && operatorStack[operatorStack.length - 1] !== "(") {
+            outputQueue.push(operatorStack.pop());
+            }
+            operatorStack.pop();
+        } else if (token in precedence) {
+            while (
+                operatorStack.length > 0 &&
+                operatorStack[operatorStack.length - 1] in precedence &&
+                precedence[token] <= precedence[operatorStack[operatorStack.length - 1]]
+            ) {
+                outputQueue.push(operatorStack.pop());
+            }
+            operatorStack.push(token);
+        }
+    }
+    console.log("outputQueue : " + outputQueue);
+
+    while (operatorStack.length > 0) {
+        outputQueue.push(operatorStack.pop());
+    }
+
+    // calculate the expression using Reverse Polish notation
+    let stack = [];
+
+    for (let i = 0; i < outputQueue.length; i++) {
+        let token = outputQueue[i];
+    
+        if (typeof token === "number") {
+            stack.push(token);
+        } else {
+            let b = stack.pop();
+            let a = stack.pop();
+    
+            if (token === "+") {
+                stack.push(addOrSubtract(a, token, b));
+            } else if (token === "-") {
+                stack.push(addOrSubtract(a, token, b));
+            } else if (token === "*") {
+                stack.push(multiplyOrDivide(a, token, b));
+            } else if (token === "/") {
+                stack.push(multiplyOrDivide(a, token, b));
+            } else if (token === "^") {
+                stack.push(power(a, b));
+            }
+        }
+    }
+    // Return the result
+    return stack.pop();
+}
+
+function calc(str) {    
+    return eval(str);
+}
+
+/* Calender */
+function calendar(str){
+    /* Pengguna memasukkan input berupa tanggal, lalu chatbot akan 
+    merespon dengan hari apa di tanggal tersebut. Contohnya adalah 
+    25/08/2023 maka chatbot akan menjawab dengan hari senin. */
+    //  format check
+    // 2023-08-25 or 25-08-2023
+    // wrong format 25-08-2023
+    if ((str[2] == "-" || str[2]=="/") && (str[5] == "-" || str[5]=="/")){
+        // re-arrange to correct format
+        // split "-" and "/"
+        let temp = str.split(/[-/]/);
+        if (temp[0].length == 4){
+            str = temp[0] + "-" + temp[1] + "-" + temp[2];
+        } else {
+            str = temp[2] + "-" + temp[1] + "-" + temp[0];
+        }
+    }
+    let date = new Date(str);
+    let day = date.getDay();
+    let dayName = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    let namaHari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+    return namaHari[day];
+}
+
 // example
 // let source = "abcd";
 // let pattern = "c";
-let source = "abaabaCabaabaasarabaabacg";
+let source = "KKabaabacaBaabaasarabaabacg";
 let pattern = "abAabAC";
 // change all pattern to lowercase
 pattern = pattern.toLowerCase();
@@ -174,3 +302,20 @@ console.log("\nBoyer-Moore");
 let index2 = bmMatch(source, pattern);
 console.log(index2);
 
+console.log("\nCalculator");
+let str = "kalkulasikan ini 3*((1   + 1) ^3)*(7+3)+1";
+console.log(calculate(str));
+
+console.log("\nCalender");
+let str2 = "25-08/2053";
+console.log(calendar(str2));
+let str3 = "2023/08-25";
+console.log(calendar(str3));
+let str4 = "2023p08-25";
+if (calendar(str4) == undefined){
+    console.log("Wrong format");
+} else {
+console.log(calendar(str4));
+}
+let str5 = "2023-04-25";
+console.log(calendar(str5));
