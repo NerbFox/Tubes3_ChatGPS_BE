@@ -1,4 +1,36 @@
-const maxDistance = 0.2;
+const maxDistance = 0; 
+// if exact match, maxDistance = 0
+// if similarity match, input maxDistance with maximum percentage of differences
+const maxRow = 3;
+const maxCol = 2;
+
+function addSimilarity(index, dist, ListOfSimilarity) {
+    // add  tuple index and dist to ListOfSimilarity 
+    // if list empty, add to first index
+    // if list not empty and not full add with ascending order
+    // if list full, add with ascending order and remove last index
+    if (ListOfSimilarity[0][0] == null) {
+        ListOfSimilarity[0][0] = index;
+        ListOfSimilarity[0][1] = dist;
+    } else{
+        for (let i = 0; i < maxRow; i++) {
+            if (ListOfSimilarity[i][0] == null){
+                ListOfSimilarity[i][0] = index;
+                ListOfSimilarity[i][1] = dist;
+                break;
+            }
+            if (ListOfSimilarity[i][1] >= dist) {
+                for (let j = maxRow - 1; j > i; j--) {
+                    ListOfSimilarity[j][0] = ListOfSimilarity[j - 1][0];
+                    ListOfSimilarity[j][1] = ListOfSimilarity[j - 1][1];
+                }
+                ListOfSimilarity[i][0] = index;
+                ListOfSimilarity[i][1] = dist;
+                break;
+            }
+        }
+    }
+}
 
 /* computeBorder Function for KMPMatch */
 function computeBorder(pattern) {
@@ -141,6 +173,30 @@ function hammingDistance(s1, s2) {
     return distance;
 }
 
+// Distance in hammingDistance with source and pattern
+function Distance(source, pattern) {
+    let ns = source.length;
+    let np = pattern.length;
+    let distance = np;
+    let s1 = "";
+    let s2 = pattern;
+    for (let i = 0; i < ns-np; i++) {
+        s1 = source.substring(i, i+np);
+        // console.log("s1 source : " + s1);
+        // console.log("s2 pattern : " + s2);
+        let distTemp = hammingDistance(s1, s2);
+        if (distTemp < distance) {
+            distance = distTemp;
+        }
+        // console.log("distance : " + distance);
+    }
+    if (ns == np) {
+        return hammingDistance(source, pattern);
+    }
+    return distance;
+}
+
+
 /* Levenshtein Distance */
 function levenshteinDistance(s1, s2) {
     let m = s1.length;
@@ -263,12 +319,8 @@ function calculate(expression) {
     return stack.pop();
 }
 
-function calc(str) {    
-    return eval(str);
-}
-
 /* Calender */
-function calendar(str){
+function getDayName(str){
     /* Pengguna memasukkan input berupa tanggal, lalu chatbot akan 
     merespon dengan hari apa di tanggal tersebut. Contohnya adalah 
     25/08/2023 maka chatbot akan menjawab dengan hari senin. */
@@ -285,6 +337,7 @@ function calendar(str){
             str = temp[2] + "-" + temp[1] + "-" + temp[0];
         }
     }
+
     let date = new Date(str);
     let day = date.getDay();
     let dayName = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -292,7 +345,81 @@ function calendar(str){
     return namaHari[day];
 }
 
-// example
+// database berisi element berupa object yang memiliki atribut question dan answer
+// question berisi string yang berisi pertanyaan dari user
+// algorithm berisi string yang berisi function algoritma yang digunakan untuk menjawab pertanyaan tersebut
+
+function getIdResponse(question, database, algorithm){    
+    // search for exact question
+    // return boolean and (index of database or list of index of database)
+    // convert to lowercase the question
+    question = question.toLowerCase();
+    for (let idx = 0; idx < database.length; idx++) {
+        // algorithm(source, pattern) -> the source should be longer than or equal to pattern
+        let source = database[idx].question;
+        let pattern = question;
+        let temp = "";
+        // convert to lowercase the source 
+        source = source.toLowerCase();
+        // ASUMSI: source lebih panjang dari pattern, jika tidak maka tukar
+        if (source.length < pattern.length){
+            temp = source;
+            source = pattern;
+            pattern = temp;
+        }
+        let answer = algorithm(source, pattern);
+        if (answer != -1){
+            // Found the answer
+            return [true, idx];
+        }
+        // // add to ListOfSim
+
+    }
+    
+    // if not found, search for similar question
+    let ListOfSim = new Array(maxRow);
+    for (let i = 0; i < 3; i++) {
+        ListOfSim[i] = new Array(maxCol);
+    }
+    let dist = 0;
+    for (let idx = 0; idx < database.length; idx++) {
+        // algorithm(source, pattern) -> the source should be longer than or equal to pattern
+        let source = database[idx].question;
+        let pattern = question;
+        let temp = "";
+        // convert to lowercase the source
+        source = source.toLowerCase();
+        // ASUMSI: source lebih panjang dari pattern, jika tidak maka tukar
+        if (source.length < pattern.length){
+            temp = source;
+            source = pattern;
+            pattern = temp;
+        }
+        // add to ListOfSim
+        dist  = Distance(source, pattern);
+        addSimilarity(idx, dist, ListOfSim);
+    }
+    return [false, ListOfSim];
+}
+
+// let database = [1,2,3]
+// let algorithm = [1,2,3]
+// getIdResponse("apa kabar", database, algorithm);
+
+// example of addSimilarity
+// let ListOfSim = new Array(maxRow);
+// for (let i = 0; i < 3; i++) {
+//     ListOfSim[i] = new Array(maxCol);
+// }
+// addSimilarity(1, 1, ListOfSim);
+// addSimilarity(7, 2, ListOfSim);
+// addSimilarity(5, 0, ListOfSim);
+// addSimilarity(9, -1, ListOfSim);
+// ListOfSim.forEach(element => console.log(element));
+// output: -1, 0, 1
+
+
+// example of kmpMatch, bmMatch, calculate, and getDayName 
 // let source = "abcd";
 // let pattern = "c";
 let source = "KKabaabacaBaabaasarabaabacg";
@@ -314,14 +441,69 @@ console.log(calculate(str));
 
 console.log("\nCalender");
 let str2 = "25-08/2053";
-console.log(calendar(str2));
+console.log(getDayName(str2));
 let str3 = "2023/08-25";
-console.log(calendar(str3));
+console.log(getDayName(str3));
 let str4 = "2023p08-25";
-if (calendar(str4) == undefined){
+if (getDayName(str4) == undefined){
     console.log("Wrong format");
 } else {
-console.log(calendar(str4));
+console.log(getDayName(str4));
 }
-let str5 = "2023-04-25";
-console.log(calendar(str5));
+let str5 = "1-01-1";
+console.log(getDayName(str5));
+
+let str6 = "30-02-2023";
+console.log(getDayName(str6));
+
+pattern = "jbAabfC";
+pattern = pattern.toLowerCase();
+console.log("h distance: " + hammingDistance(source, pattern));
+console.log("distance: " + Distance(source, pattern));
+
+pattern = "KKabaabacaBaabaasarabaabacg";
+source = source.toLowerCase();
+pattern = pattern.toLowerCase();
+console.log("\npattern: " + pattern);
+console.log("source: " + source);
+console.log("h distance: " + hammingDistance(source, pattern));
+console.log("distance: " + Distance(source, pattern));
+
+let myArray = [
+    { question: 'What is your name?', answer: 'My name is John.' },
+    { question: 'Where do you live?', answer: 'I live in New York.' },
+    { question: 'What is your favorite color?', answer: 'My favorite color is blue.' }
+  ];
+let question = "where dof";
+let algorithm = bmMatch;
+console.log("\nData: ");
+for (let i = 0; i < myArray.length; i++) {
+    console.log(i + ". " + "question: " + myArray[i].question + ", answer: " + myArray[i].answer);
+}
+let result = getIdResponse(question, myArray, bmMatch);
+
+console.log("\nQuestion: " + question);
+console.log(result[0]);
+console.log(result[1]);
+if (result[0]){
+    console.log(myArray[result[1]].answer);
+}
+else {
+    for (let i = 0; i < 3; i++) {
+        console.log(myArray[result[1][i][0]].answer);
+    }
+}
+
+question = "what is your n?";
+result = getIdResponse(question, myArray, bmMatch);
+console.log("\nQuestion: " + question);
+console.log(result[0]);
+console.log(result[1]);
+if (result[0]){
+    console.log(myArray[result[1]].answer);
+}
+else {
+    for (let i = 0; i < 3; i++) {
+        console.log(myArray[result[1][i][0]].answer);
+    }
+}
