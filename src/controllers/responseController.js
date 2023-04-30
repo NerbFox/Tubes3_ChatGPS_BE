@@ -60,6 +60,6 @@ async function saveHistory(req, res) {
   }
 }
 
-async;
+// async;
 
 module.exports = { getResponse, getAllSession, addSession, saveHistory };
