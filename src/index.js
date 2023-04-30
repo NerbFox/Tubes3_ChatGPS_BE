@@ -1,10 +1,27 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const { getResponse } = require("./controllers/responseController.js");
+const {
+  getResponse,
+  getAllSession,
+  addSession,
+  saveHistory,
+} = require("./controllers/responseController.js");
 require("dotenv").config();
+const cors = require("cors");
 const app = express();
 
+app.use(
+  cors({
+    origin: "*",
+  })
+);
+
+app.use(express.json());
+
 app.post("/", getResponse);
+app.get("/session", getAllSession);
+app.post("/session", addSession);
+app.post("/history", saveHistory);
 
 async function start() {
   try {
