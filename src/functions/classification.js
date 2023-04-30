@@ -1,4 +1,4 @@
-const { calculate, calendar } = require ("./algo.js");
+const { calculate, getDayName } = require ("./algo.js");
 
 dummyDb = [{q: "apa itu ibukota jakarta?", a : "jakarta bukan negara goblok"}, 
             {q:"rava ganteng ngga?", a:"ganteng itu relatif, tapi menurut ku iya dong :3"},
@@ -30,7 +30,7 @@ function classification(question){
     console.log(questionWithAndMatches)
     if(dateMatches != null){
         for (let date in dateMatches){
-            console.log(calendar(dateMatches[date]))
+            console.log(getDayName(dateMatches[date]))
             typeArray.push(1)
             questionArray.push(dateMatches[date])
         }
