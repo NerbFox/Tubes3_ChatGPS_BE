@@ -1,8 +1,10 @@
 const maxDistance = 0; 
 // if exact match, maxDistance = 0
 // if similarity match, input maxDistance with maximum percentage of differences
+const maxSimilarity = 0.9;
 const maxRow = 3;
 const maxCol = 2;
+
 
 function addSimilarity(index, dist, ListOfSimilarity) {
     // add  tuple index and dist to ListOfSimilarity 
@@ -399,6 +401,14 @@ function getIdResponse(question, database, algorithm){
         dist  = Distance(source, pattern);
         addSimilarity(idx, dist, ListOfSim);
     }
+    // first: top one at least 90% similar
+    let m = question.length; // length of question
+    let similarity_question = m - ListOfSim[0][1];
+    similarity_question = similarity_question / m; 
+    if (similarity_question >= maxSimilarity){
+        return [true, ListOfSim[0][0]];
+    }
+    // second: top three in order of similarity
     return [false, ListOfSim];
 }
 
@@ -472,7 +482,10 @@ console.log("distance: " + Distance(source, pattern));
 let myArray = [
     { question: 'What is your name?', answer: 'My name is John.' },
     { question: 'Where do you live?', answer: 'I live in New York.' },
-    { question: 'What is your favorite color?', answer: 'My favorite color is blue.' }
+    { question: 'What is your favorite color?', answer: 'My favorite color is blue.' },
+    { question: 'Ibukota Indonesia', answer: 'Jakarta' },
+    { question: 'Ibukota Inggris', answer: 'London' },
+    { question: '1234567890', answer: 'My n is 10.'}
   ];
 let question = "where dof";
 let algorithm = bmMatch;
@@ -494,7 +507,9 @@ else {
     }
 }
 
-question = "what is your n?";
+// question = "1234567191";
+// question = "Ibukota Indonesia Jakarta?";
+question = "Ibukota negara Inggris?";
 result = getIdResponse(question, myArray, bmMatch);
 console.log("\nQuestion: " + question);
 console.log(result[0]);
