@@ -1,10 +1,25 @@
-const inputDummy = "hello can you compute this equation 40 * 5.5 - 2 / 3 + 4 + 5 * 70? and this date 02/02/0222";
-const equationRegex = /(\d+(\.\d+)?)(\s*[-+*/]\s*\d+(\.\d+)?)+/;
-const dateRegex =  /\d{2,4}[-/\s]\d{2}[-/\s]\d{2,4}/;
+const { calculate, calendar } = require ("./algo.js");
+const inputDummy = "apa itu ibukota jakarta? apa itu ibukota inggris?";
+const equationRegex = /(\d+(\.\d+)?)(\s*[-+*/^]\s*\d+(\.\d+)?)+/g;
+const dateRegex =  /\d{2,4}[-/\s]\d{2}[-/\s]\d{2,4}/g;
+const questionRegex = /.+?([.?!]\s*|$)/g
 
-const equationMatches = inputDummy.match(equationRegex);
+
+let equationMatches = inputDummy.match(equationRegex);
+let questionMatches = inputDummy.match(questionRegex)
 const dateMatches = inputDummy.match(dateRegex)
+if(dateMatches != null){
+    equationMatches = equationMatches.filter(item => !dateMatches.includes(item));
+}
 
+console.log(equationMatches)
+console.log(dateMatches)
+console.log(questionMatches)
 
-console.log(equationMatches[0])
-console.log(dateMatches[0])
+for (let date in dateMatches){
+    console.log(calendar(dateMatches[date]))
+}
+
+for(let eq in equationMatches){
+    console.log(calculate(equationMatches[eq]))
+}
