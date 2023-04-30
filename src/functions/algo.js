@@ -1,4 +1,6 @@
-const maxDistance = 0.2;
+const maxDistance = 0; 
+// if exact match, maxDistance = 0
+// if similarity match, input maxDistance with maximum percentage of differences
 const maxRow = 3;
 const maxCol = 2;
 
