@@ -1,4 +1,5 @@
 const maxDistance = 0.2;
+
 /* computeBorder Function for KMPMatch */
 function computeBorder(pattern) {
     let border = [];
@@ -22,8 +23,12 @@ function computeBorder(pattern) {
     }
     return border;
 }
+
 /* Knuth-Morris-Pratt Algorithm */
 function kmpMatch(source, pattern, maxDist = maxDistance) {
+    // array of answer posibilities
+    let answers = [];
+    
     console.log("kmpMatch");
     // initialize variables
     let n = source.length;
@@ -76,6 +81,7 @@ function buildLast(pattern) {
     }
     return last;
 }
+
 /* The Boyer-Moore Algorithm */
 function bmMatch(source, pattern, maxDist = maxDistance) {
     console.log("bmMatch");
@@ -186,7 +192,7 @@ function calculate(expression) {
       }
     }
     console.log("tokens : " + tokens);  
-
+    
     // calculate the expression using the Shunting Yard algorithm
     let outputQueue = [];
     let operatorStack = [];
