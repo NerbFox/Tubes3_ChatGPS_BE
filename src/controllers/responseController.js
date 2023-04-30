@@ -1,8 +1,6 @@
 const History = require("../models/History.js");
 const Question = require("../models/Question.js");
 
-// getHistory
-
 async function getResponse(req, res) {
   const { question } = req.body;
   return res.status(200).send({ message: "success" });
@@ -61,5 +59,7 @@ async function saveHistory(req, res) {
     return res.status(500).send({ message: "Internal server error" });
   }
 }
+
+async;
 
 module.exports = { getResponse, getAllSession, addSession, saveHistory };
