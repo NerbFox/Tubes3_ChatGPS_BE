@@ -337,7 +337,6 @@ function getDayName(str){
             str = temp[2] + "-" + temp[1] + "-" + temp[0];
         }
     }
-    
 
     let date = new Date(str);
     let day = date.getDay();
@@ -357,7 +356,7 @@ function getIdResponse(question, database, algorithm){
     question = question.toLowerCase();
     for (let idx = 0; idx < database.length; idx++) {
         // algorithm(source, pattern) -> the source should be longer than or equal to pattern
-        let source = database[i].question;
+        let source = database[idx].question;
         let pattern = question;
         let temp = "";
         // convert to lowercase the source 
@@ -385,7 +384,7 @@ function getIdResponse(question, database, algorithm){
     let dist = 0;
     for (let idx = 0; idx < database.length; idx++) {
         // algorithm(source, pattern) -> the source should be longer than or equal to pattern
-        let source = database[i].question;
+        let source = database[idx].question;
         let pattern = question;
         let temp = "";
         // convert to lowercase the source
@@ -413,10 +412,7 @@ function getIdResponse(question, database, algorithm){
 //     ListOfSim[i] = new Array(maxCol);
 // }
 // addSimilarity(1, 1, ListOfSim);
-// addSimilarity(4, 3, ListOfSim);
 // addSimilarity(7, 2, ListOfSim);
-// addSimilarity(6, 1, ListOfSim);
-// addSimilarity(8, 1, ListOfSim);
 // addSimilarity(5, 0, ListOfSim);
 // addSimilarity(9, -1, ListOfSim);
 // ListOfSim.forEach(element => console.log(element));
@@ -473,5 +469,41 @@ console.log("source: " + source);
 console.log("h distance: " + hammingDistance(source, pattern));
 console.log("distance: " + Distance(source, pattern));
 
+let myArray = [
+    { question: 'What is your name?', answer: 'My name is John.' },
+    { question: 'Where do you live?', answer: 'I live in New York.' },
+    { question: 'What is your favorite color?', answer: 'My favorite color is blue.' }
+  ];
+let question = "where dof";
+let algorithm = bmMatch;
+console.log("\nData: ");
+for (let i = 0; i < myArray.length; i++) {
+    console.log(i + ". " + "question: " + myArray[i].question + ", answer: " + myArray[i].answer);
+}
+let result = getIdResponse(question, myArray, bmMatch);
 
+console.log("\nQuestion: " + question);
+console.log(result[0]);
+console.log(result[1]);
+if (result[0]){
+    console.log(myArray[result[1]].answer);
+}
+else {
+    for (let i = 0; i < 3; i++) {
+        console.log(myArray[result[1][i][0]].answer);
+    }
+}
 
+question = "what is your n?";
+result = getIdResponse(question, myArray, bmMatch);
+console.log("\nQuestion: " + question);
+console.log(result[0]);
+console.log(result[1]);
+if (result[0]){
+    console.log(myArray[result[1]].answer);
+}
+else {
+    for (let i = 0; i < 3; i++) {
+        console.log(myArray[result[1][i][0]].answer);
+    }
+}
