@@ -420,90 +420,90 @@ function getIdResponse(question, database, algorithm){
 // example of kmpMatch, bmMatch, calculate, and getDayName 
 // let source = "abcd";
 // let pattern = "c";
-let source = "KKabaabacaBaabaasarabaabacg";
-let pattern = "abAabAC";
-// change all pattern to lowercase
-pattern = pattern.toLowerCase();
+// let source = "KKabaabacaBaabaasarabaabacg";
+// let pattern = "abAabAC";
+// // change all pattern to lowercase
+// pattern = pattern.toLowerCase();
 
-console.log("Knuth-Morris-Pratt");
-let index = kmpMatch(source, pattern);
-console.log(index); 
+// console.log("Knuth-Morris-Pratt");
+// let index = kmpMatch(source, pattern);
+// console.log(index); 
 
-console.log("\nBoyer-Moore");
-let index2 = bmMatch(source, pattern);
-console.log(index2);
+// console.log("\nBoyer-Moore");
+// let index2 = bmMatch(source, pattern);
+// console.log(index2);
 
-console.log("\nCalculator");
-let str = "kalkulasikan ini 3*((1   + 1) ^3)*(7+3)+1";
-console.log(calculate(str));
+// // console.log("\nCalculator");
+// // let str = "kalkulasikan ini 3*((1   + 1) ^3)*(7+3)+1";
+// // console.log(calculate(str));
 
-console.log("\nCalender");
-let str2 = "25-08/2053";
-console.log(getDayName(str2));
-let str3 = "2023/08-25";
-console.log(getDayName(str3));
-let str4 = "2023p08-25";
-if (getDayName(str4) == undefined){
-    console.log("Wrong format");
-} else {
-console.log(getDayName(str4));
-}
-let str5 = "1-01-1";
-console.log(getDayName(str5));
+// // console.log("\nCalender");
+// // let str2 = "25-08/2053";
+// // console.log(getDayName(str2));
+// // let str3 = "2023/08-25";
+// // console.log(getDayName(str3));
+// // let str4 = "2023p08-25";
+// // if (getDayName(str4) == undefined){
+// //     console.log("Wrong format");
+// // } else {
+// // console.log(getDayName(str4));
+// // }
+// // let str5 = "1-01-1";
+// // console.log(getDayName(str5));
 
-let str6 = "30-02-2023";
-console.log(getDayName(str6));
+// // let str6 = "30-02-2023";
+// // console.log(getDayName(str6));
 
-pattern = "jbAabfC";
-pattern = pattern.toLowerCase();
-console.log("h distance: " + hammingDistance(source, pattern));
-console.log("distance: " + Distance(source, pattern));
+// // pattern = "jbAabfC";
+// // pattern = pattern.toLowerCase();
+// // console.log("h distance: " + hammingDistance(source, pattern));
+// // console.log("distance: " + Distance(source, pattern));
 
-pattern = "KKabaabacaBaabaasarabaabacg";
-source = source.toLowerCase();
-pattern = pattern.toLowerCase();
-console.log("\npattern: " + pattern);
-console.log("source: " + source);
-console.log("h distance: " + hammingDistance(source, pattern));
-console.log("distance: " + Distance(source, pattern));
+// // pattern = "KKabaabacaBaabaasarabaabacg";
+// // source = source.toLowerCase();
+// // pattern = pattern.toLowerCase();
+// // console.log("\npattern: " + pattern);
+// // console.log("source: " + source);
+// // console.log("h distance: " + hammingDistance(source, pattern));
+// // console.log("distance: " + Distance(source, pattern));
 
-let myArray = [
-    { question: 'What is your name?', answer: 'My name is John.' },
-    { question: 'Where do you live?', answer: 'I live in New York.' },
-    { question: 'What is your favorite color?', answer: 'My favorite color is blue.' }
-  ];
-let question = "where dof";
-let algorithm = bmMatch;
-console.log("\nData: ");
-for (let i = 0; i < myArray.length; i++) {
-    console.log(i + ". " + "question: " + myArray[i].question + ", answer: " + myArray[i].answer);
-}
-let result = getIdResponse(question, myArray, bmMatch);
+// let myArray = [
+//     { question: 'What is your name?', answer: 'My name is John.' },
+//     { question: 'Where do you live?', answer: 'I live in New York.' },
+//     { question: 'What is your favorite color?', answer: 'My favorite color is blue.' }
+//   ];
+// let question = "where do you live?";
+// let algorithm = bmMatch;
+// console.log("\nData: ");
+// for (let i = 0; i < myArray.length; i++) {
+//     console.log(i + ". " + "question: " + myArray[i].question + ", answer: " + myArray[i].answer);
+// }
+// let result = getIdResponse(question, myArray, bmMatch);
 
-console.log("\nQuestion: " + question);
-console.log(result[0]);
-console.log(result[1]);
-if (result[0]){
-    console.log(myArray[result[1]].answer);
-}
-else {
-    for (let i = 0; i < 3; i++) {
-        console.log(myArray[result[1][i][0]].answer);
-    }
-}
+// console.log("\nQuestion: " + question);
+// console.log(result[0]);
+// console.log(result[1]);
+// if (result[0]){
+//     console.log(myArray[result[1]].answer);
+// }
+// else {
+//     for (let i = 0; i < 3; i++) {
+//         console.log(myArray[result[1][i][0]].answer);
+//     }
+// }
 
-question = "what is your n?";
-result = getIdResponse(question, myArray, bmMatch);
-console.log("\nQuestion: " + question);
-console.log(result[0]);
-console.log(result[1]);
-if (result[0]){
-    console.log(myArray[result[1]].answer);
-}
-else {
-    for (let i = 0; i < 3; i++) {
-        console.log(myArray[result[1][i][0]].answer);
-    }
-}
+// question = "what is your n?";
+// result = getIdResponse(question, myArray, bmMatch);
+// console.log("\nQuestion: " + question);
+// console.log(result[0]);
+// console.log(result[1]);
+// if (result[0]){
+//     console.log(myArray[result[1]].answer);
+// }
+// else {
+//     for (let i = 0; i < 3; i++) {
+//         console.log(myArray[result[1][i][0]].answer);
+//     }
+// }
 
-module.exports = {calculate, getDayName}
+module.exports = {calculate, getDayName, getIdResponse, bmMatch, kmpMatch}

@@ -18,7 +18,7 @@ app.use(
 
 app.use(express.json());
 
-app.post("/", getResponse);
+app.get("/", getResponse);
 app.get("/session", getAllSession);
 app.post("/session", addSession);
 app.post("/history", saveHistory);
