@@ -8,8 +8,7 @@ async function getResponse(req, res) {
 
 async function getAllSession(req, res) {
   try {
-    const sessionList = await History.find();
-    console.log(sessionList);
+    const sessionList = await History.find({}, { _id: 1 });
 
     return res.status(200).send({ message: sessionList });
   } catch (err) {
@@ -22,7 +21,6 @@ async function addSession(req, res) {
   try {
     const newSession = new History({ chatList: [] });
     const savedSession = await newSession.save();
-    console.log(savedSession);
 
     return res.status(200).send({ message: savedSession._id });
   } catch (err) {
@@ -33,7 +31,6 @@ async function addSession(req, res) {
 
 async function saveHistory(req, res) {
   try {
-    console.log(req.body);
     const { id, question, response } = req.body;
 
     if (!id) {
@@ -59,7 +56,5 @@ async function saveHistory(req, res) {
     return res.status(500).send({ message: "Internal server error" });
   }
 }
-
-async;
 
 module.exports = { getResponse, getAllSession, addSession, saveHistory };
