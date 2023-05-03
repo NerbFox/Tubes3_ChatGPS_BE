@@ -11,7 +11,7 @@ const questionSchema = new mongoose.Schema(
       required: [true, "Answer must be provided"],
     },
   },
-  { collection: "questions" }
+  { collection: "Questions" }
 );
 
 module.exports = mongoose.model("Question", questionSchema);

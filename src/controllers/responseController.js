@@ -11,16 +11,16 @@ const {
 
 async function getResponse(req, res) {
   // const { question } = req.body;
-  console.log(req.query);
+  // console.log(req.query);
   const typeArray = classification(req.query.question)[0];
   const questionArray = classification(req.query.question)[1];
-  console.log(typeArray, questionArray);
+  // console.log(typeArray, questionArray);
   let i = 0;
   let prevQues;
   let finalResponse = "";
   let count = 1;
   for (let type in typeArray) {
-    console.log(typeArray[type]);
+    // console.log(typeArray[type]);
     if (typeArray[type] == 1) {
       let day = getDayName(questionArray[i]);
       let partResponse = `Hari untuk tanggal ${questionArray[i]} adalah ${day}\n`;
@@ -43,13 +43,13 @@ async function getResponse(req, res) {
       } catch (err) {
         console.error(err);
       }
-      console.log(searchRes);
+      // console.log(searchRes);
       if (match) {
         if (searchRes[0]) {
           let partResponse = `Pertanyaan "${
             questions[searchRes[1]].question
           }" sudah ada, jawaban diganti menjadi ${answer}\n`;
-          console.log(questions[searchRes[1]].id);
+          // console.log(questions[searchRes[1]].id);
           let id = questions[searchRes[1]].id;
           //update jawaban instead of nambah baru
           let question = await Question.findOneAndUpdate(
@@ -79,7 +79,7 @@ async function getResponse(req, res) {
     if (typeArray[type] == 4) {
       const questions = await Question.find({});
       const question = questionArray[i].trim();
-      console.log(questions);
+      // console.log(questions);
       let id;
       let searchRes = getIdResponse(question, questions, kmpMatch);
       if (searchRes[0]) {
@@ -104,20 +104,25 @@ async function getResponse(req, res) {
           let partResponse = `Jawaban untuk "${question}" adalah "${answer}"\n`;
           finalResponse = finalResponse + partResponse;
         }
-        console.log("menjawab pertanyaan");
+        // console.log("menjawab pertanyaan");
       }
       prevQues = questionArray[i];
-      console.log(prevQues);
+      // console.log(prevQues);
     }
     i++;
   }
   console.log(finalResponse);
-  return res.status(200).send({ message: finalResponse });
+  return res.status(200).send({
+    message:
+      finalResponse === ""
+        ? "ChatGPS tidak dapat menjawab query kamu :("
+        : finalResponse,
+  });
 }
 
 async function getAllSession(req, res) {
   try {
-    const sessionList = await History.find({}, { _id: 1 });
+    const sessionList = await History.find().sort({ dateCreated: -1 }).limit(5);
 
     return res.status(200).send({ message: sessionList });
   } catch (err) {
@@ -128,7 +133,7 @@ async function getAllSession(req, res) {
 
 async function addSession(req, res) {
   try {
-    const newSession = new History({ chatList: [] });
+    const newSession = new History({ chatList: [], dateCreated: new Date() });
     const savedSession = await newSession.save();
 
     return res.status(200).send({ message: savedSession._id });
