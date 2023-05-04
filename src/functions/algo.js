@@ -483,14 +483,14 @@ function getIdResponse(question, database, algorithm){
 // // console.log("h distance: " + hammingDistance(source, pattern));
 // // console.log("distance: " + Distance(source, pattern));
 
-let myArray = [
-    { question: 'What is your name?', answer: 'My name is John.' },
-    { question: 'Where do you live?', answer: 'I live in New York.' },
-    { question: 'What is your favorite color?', answer: 'My favorite color is blue.' },
-    { question: 'Ibukota Indonesia', answer: 'Jakarta' },
-    { question: 'Ibukota Inggris', answer: 'London' },
-    { question: '1234567890', answer: 'My n is 10.'}
-  ];
+// let myArray = [
+//     { question: 'What is your name?', answer: 'My name is John.' },
+//     { question: 'Where do you live?', answer: 'I live in New York.' },
+//     { question: 'What is your favorite color?', answer: 'My favorite color is blue.' },
+//     { question: 'Ibukota Indonesia', answer: 'Jakarta' },
+//     { question: 'Ibukota Inggris', answer: 'London' },
+//     { question: '1234567890', answer: 'My n is 10.'}
+//   ];
 // let question = "where dof";
 // let algorithm = bmMatch;
 // console.log("\nData: ");
