@@ -8,6 +8,7 @@ const historySchema = new mongoose.Schema(
         response: String,
       },
     ],
+    dateCreated: Date,
   },
   { collection: "History" }
 );

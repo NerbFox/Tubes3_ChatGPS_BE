@@ -1,4 +1,3 @@
-const { calculate, getDayName } = require ("./algo.js");
 
 dummyDb = [{q: "apa itu ibukota jakarta?", a : "jakarta bukan negara goblok"}, 
             {q:"rava ganteng ngga?", a:"ganteng itu relatif, tapi menurut ku iya dong :3"},
@@ -10,7 +9,6 @@ function classification(question){
     //cocokin string input ke yang ada di db, kalo cocok update jawaban, kalo ngga cocok tambahin
     let typeArray = []
     let questionArray = []
-    let filteredQM = []
     const equationRegex = /(\d+(\.\d+)?)(\s*[-+*/^]\s*\d+(\.\d+)?)+/g;
     const dateRegex =  /\d{2,4}[-/\s]\d{2}[-/\s]\d{2,4}/g;
     const addQueryRegex = /(?<=tambah pertanyaan).*?(?= dan|$)/ig;   
@@ -26,11 +24,11 @@ function classification(question){
     if(dateMatches != null){
         equationMatches = equationMatches.filter(item => !dateMatches.includes(item));
     }
-    console.log(questionMatches)
-    console.log(questionWithAndMatches)
+    // console.log(questionMatches)
+    // console.log(questionWithAndMatches)
     if(dateMatches != null){
         for (let date in dateMatches){
-            console.log(getDayName(dateMatches[date]))
+            // console.log(getDayName(dateMatches[date]))
             typeArray.push(1)
             questionArray.push(dateMatches[date])
         }
@@ -40,7 +38,7 @@ function classification(question){
 
     if(equationMatches != null){
         for(let eq in equationMatches){
-            console.log(calculate(equationMatches[eq]))
+            // console.log(calculate(equationMatches[eq]))
             typeArray.push(2)
             questionArray.push(equationMatches[eq])
         }
@@ -60,13 +58,12 @@ function classification(question){
         }
     }
     if(questionMatches != null && questionWithAndMatches != null){
-        console.log(questionMatches.length)
+        // console.log(questionMatches.length)
         for(i = 0; i < questionMatches.length; i++){
-            console.log(i)
+            // console.log(i)
             if(questionMatches[i].match(equationRegex) || questionMatches[i].match(dateRegex) || questionMatches[i].match(addQueryRegex) || questionMatches[i].match(eraseQueryRegex)){
                 continue
             }else{
-                filteredQM.push(questionMatches[i])
                 typeArray.push(5)
                 questionArray.push(questionMatches[i])
             }
@@ -76,23 +73,24 @@ function classification(question){
             if(questionWithAndMatches[ques].match(equationRegex) || questionWithAndMatches[ques].match(dateRegex) || questionWithAndMatches[ques].match(addQueryRegex) || questionWithAndMatches[ques].match(eraseQueryRegex)){
                 continue
             }else{
-                filteredQM.push(questionWithAndMatches[ques])
                 typeArray.push(5)
                 questionArray.push(questionWithAndMatches[ques])
             }
         }
-        filteredQM = [...new Set(filteredQM)];
     }
 
-    console.log(equationMatches)
-    console.log(dateMatches)
-    console.log(addQueryMatches)
-    console.log(eraseQueryMatches)
-    console.log(filteredQM)
-    console.log(typeArray)
-    console.log(questionArray)
+    // console.log(equationMatches)
+    // console.log(dateMatches)
+    // console.log(addQueryMatches)
+    // console.log(eraseQueryMatches)
+    // console.log(filteredQM)
+    // console.log(typeArray)
+    // console.log(questionArray)
+    // questionArray = [...new Set(questionArray)];
+    return [typeArray, questionArray]
 
 }
 
 classification(inputDummy)
+module.exports = {classification}
 
