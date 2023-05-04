@@ -477,21 +477,21 @@ function getIdResponse(question, database, algorithm){
 // // console.log("h distance: " + hammingDistance(source, pattern));
 // // console.log("distance: " + Distance(source, pattern));
 
-let myArray = [
-    { question: 'What is your name?', answer: 'My name is John.' },
-    { question: 'Where do you live?', answer: 'I live in New York.' },
-    { question: 'What is your favorite color?', answer: 'My favorite color is blue.' },
-    { question: 'Ibukota Indonesia', answer: 'Jakarta' },
-    { question: 'Ibukota Inggris', answer: 'London' },
-    { question: '1234567890', answer: 'My n is 10.'}
-  ];
-let question = "where dof";
-let algorithm = bmMatch;
-console.log("\nData: ");
-for (let i = 0; i < myArray.length; i++) {
-    console.log(i + ". " + "question: " + myArray[i].question + ", answer: " + myArray[i].answer);
-}
-let result = getIdResponse(question, myArray, bmMatch);
+// let myArray = [
+//     { question: 'What is your name?', answer: 'My name is John.' },
+//     { question: 'Where do you live?', answer: 'I live in New York.' },
+//     { question: 'What is your favorite color?', answer: 'My favorite color is blue.' },
+//     { question: 'Ibukota Indonesia', answer: 'Jakarta' },
+//     { question: 'Ibukota Inggris', answer: 'London' },
+//     { question: '1234567890', answer: 'My n is 10.'}
+//   ];
+// let question = "where dof";
+// let algorithm = bmMatch;
+// console.log("\nData: ");
+// for (let i = 0; i < myArray.length; i++) {
+//     console.log(i + ". " + "question: " + myArray[i].question + ", answer: " + myArray[i].answer);
+// }
+// let result = getIdResponse(question, myArray, bmMatch);
 
 // console.log("\nQuestion: " + question);
 // console.log(result[0]);
@@ -505,18 +505,18 @@ let result = getIdResponse(question, myArray, bmMatch);
 //     }
 // }
 
-question = "what is your n?";
-result = getIdResponse(question, myArray, bmMatch);
-console.log("\nQuestion: " + question);
-console.log(result[0]);
-console.log(result[1]);
-if (result[0]){
-    console.log(myArray[result[1]].answer);
-}
-else {
-    for (let i = 0; i < 3; i++) {
-        console.log(myArray[result[1][i][0]].answer);
-    }
-}
+// question = "what is your n?";
+// result = getIdResponse(question, myArray, bmMatch);
+// console.log("\nQuestion: " + question);
+// console.log(result[0]);
+// console.log(result[1]);
+// if (result[0]){
+//     console.log(myArray[result[1]].answer);
+// }
+// else {
+//     for (let i = 0; i < 3; i++) {
+//         console.log(myArray[result[1][i][0]].answer);
+//     }
+// }
 
 module.exports = {calculate, getDayName, getIdResponse, bmMatch, kmpMatch}

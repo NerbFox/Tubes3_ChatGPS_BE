@@ -8,13 +8,13 @@ dummyDb = [
   ];
   
   const inputDummy =
-    "7-8+(9*4) dan 5*2*3 dan 7*(5/3) dan 2*(5*(5*2+2))";
+    "(7-8+(9*4))', '5*2*3', '7*(5/3)', '2((5*(5*2+2 2(5*(5*2+2))) (5*2) 5+2";
   
   function classification(question) {
     //cocokin string input ke yang ada di db, kalo cocok update jawaban, kalo ngga cocok tambahin
     let typeArray = [];
     let questionArray = [];
-    const equationRegex = /(\d+(\.\d+)?)(\s*[-+*/^]\s*(\d+(\.\d+)?|\((.*?)\)))+/g;
+    const equationRegex =  /(\((.*?)\)?|\d+(\.\d+)?)(\s*[-+*/(^]\s*(\((.*?)\)|\d+(\.\d+)?))+(\))*/g
     const dateRegex = /\d{2,4}[-/\s]\d{2}[-/\s]\d{2,4}/g;
     const addQueryRegex = /(?<=tambah pertanyaan).*?(?= dan|$)/gi;
     const eraseQueryRegex = /(?<=hapus pertanyaan).*?(?= dan|$)/gi;
@@ -98,7 +98,8 @@ dummyDb = [
         }
       }
     }
-  
+    
+    console.log(equationMatches)
     // console.log(dateMatches)
     // console.log(addQueryMatches)
     // console.log(eraseQueryMatches)
@@ -109,7 +110,7 @@ dummyDb = [
     return [typeArray, questionArray];
   }
   
-  
+  classification(inputDummy)
   module.exports = { classification };
   
   
