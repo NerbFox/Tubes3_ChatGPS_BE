@@ -8,13 +8,20 @@ dummyDb = [
   ];
   
   const inputDummy =
-    "(7-8+(9*4))', '5*2*3', '7*(5/3)', '2((5*(5*2+2 2(5*(5*2+2))) (5*2) 5+2";
+    "hapus pertanyaan apakah itb susah? dan hapus pertanyaan rava kece ga? dan tambah pertanyaan jovan imut ga? dengan jawaban kaga dan tambah pertanyaan rava kece ga? dengan jawaban iyalah masa engga dan hitung 50 * 2 dan 40 * 2 dan tentukan tanggal 20/02/2023 dan 20/03/2023 dan apakah itb gampang?";
+    // -1+1+7-8+(9*4)+5*2*3+7*(5/3)+2*(5*(5*2+2 2(5*(5*2+2)))+(5*2) -1+1+5+2 -1+1
   
   function classification(question) {
     //cocokin string input ke yang ada di db, kalo cocok update jawaban, kalo ngga cocok tambahin
     let typeArray = [];
     let questionArray = [];
-    const equationRegex =  /(\((.*?)\)?|\d+(\.\d+)?)(\s*[-+*/(^]\s*(\((.*?)\)|\d+(\.\d+)?))+(\))*/g
+    let notFilQues = []
+    let andQues = []
+    const equationRegex =  /(\((.*?)\)?|-?\d+(\.\d+)?)(\s*[-+*/^]\s*(\((.*?)\)|\d+(\.\d+)?))+(\))*/g
+    // /(\((.*?)\)?|-?\d+(\.\d+)?)(\s*[-+*/(^]\s*(\((.*?)\)|\d+(\.\d+)?))+(\))*/g
+    // /(\((.*?)\)?|\d+(\.\d+)?)(\s*[-+*/(^]\s*(\((.*?)\)|\d+(\.\d+)?))+(\))*/g
+
+
     const dateRegex = /\d{2,4}[-/\s]\d{2}[-/\s]\d{2,4}/g;
     const addQueryRegex = /(?<=tambah pertanyaan).*?(?= dan|$)/gi;
     const eraseQueryRegex = /(?<=hapus pertanyaan).*?(?= dan|$)/gi;
@@ -27,7 +34,7 @@ dummyDb = [
     const dateMatches = question.match(dateRegex);
     const addQueryMatches = question.match(addQueryRegex);
     const eraseQueryMatches = question.match(eraseQueryRegex);
-    if (dateMatches != null) {
+    if (dateMatches != null && equationMatches != null) {
       equationMatches = equationMatches.filter(
         (item) => !dateMatches.includes(item)
       );
@@ -79,8 +86,15 @@ dummyDb = [
         ) {
           continue;
         } else {
-          typeArray.push(5);
-          questionArray.push(questionMatches[i]);
+          console.log("masuk")
+          console.log(questionMatches[i])
+          let trim = questionMatches[i].trim()
+          const substring = 'dan';
+          let resQues = trim.replace(new RegExp('^' + substring + '|' + substring + '$', 'g'), '');
+          resQues = resQues.trim()
+          // typeArray.push(5);
+          // questionArray.push(resQues);
+          notFilQues.push(resQues);
         }
       }
   
@@ -93,19 +107,47 @@ dummyDb = [
         ) {
           continue;
         } else {
-          typeArray.push(5);
-          questionArray.push(questionWithAndMatches[ques]);
+          console.log(questionWithAndMatches[ques])
+          let trim = questionWithAndMatches[ques].trim()
+          const substring = 'dan';
+          let resQues = trim.replace(new RegExp('^' + substring + '|' + substring + '$', 'g'), '');
+          resQues = resQues.trim()
+          andQues.push(resQues);
+          // typeArray.push(5);
+          // questionArray.push(resQues);
         }
       }
+      //filter questions
+      console.log(notFilQues)
+      if(addQueryMatches != null){
+        for(let i in addQueryMatches){
+          notFilQues = notFilQues.filter(item => !addQueryMatches[i].includes(item));
+        }
+      }
+      console.log(andQues)
+      console.log(notFilQues)
+      if(andQues != null){
+        for(let i in andQues){
+          notFilQues = notFilQues.filter(item => !andQues[i].includes(item));
+        }
+      }
+      console.log(notFilQues)
+      questionArray = questionArray.concat(notFilQues)
+      questionArray = questionArray.concat(andQues)
+      let n = notFilQues.length + andQues.length
+      const filledArr = new Array(n).fill(5);
+      typeArray = typeArray.concat(filledArr);
+
     }
     
-    console.log(equationMatches)
+    // console.log(equationMatches)
     // console.log(dateMatches)
     // console.log(addQueryMatches)
     // console.log(eraseQueryMatches)
+    // console.log(questionMatches, questionMatches)
     // console.log(filteredQM)
-    // console.log(typeArray)
-    // console.log(questionArray)
+    console.log(typeArray)
+    console.log(questionArray)
     // questionArray = [...new Set(questionArray)];
     return [typeArray, questionArray];
   }
