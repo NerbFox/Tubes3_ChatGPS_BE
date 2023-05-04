@@ -11,9 +11,11 @@ function addSimilarity(index, dist, ListOfSimilarity) {
     // if list empty, add to first index
     // if list not empty and not full add with ascending order
     // if list full, add with ascending order and remove last index
+    // console.log("addSimilarity   nihh");
     if (ListOfSimilarity[0][0] == null) {
         ListOfSimilarity[0][0] = index;
         ListOfSimilarity[0][1] = dist;
+        // console.log("addSimilarity : " + ListOfSimilarity);
     } else{
         for (let i = 0; i < maxRow; i++) {
             if (ListOfSimilarity[i][0] == null){
@@ -42,7 +44,7 @@ function computeBorder(pattern) {
     let n = pattern.length;
     let j = 0; i = 1;
     while (i < n) {
-        if (pattern[i] == pattern[j]) {
+        if (pattern[i] === pattern[j]) {
             // j + 1 characters match
             border[i] = j + 1;
             i++; j++;
@@ -83,10 +85,10 @@ function kmpMatch(source, pattern, maxDist = maxDistance) {
         if (pattern[j] != source[i]) {
             dist++;
         }
-        if (pattern[j] == source[i] || dist <= maxD) {
-            // match found at i - m + 1, if j == m - 1
+        if (pattern[j] === source[i] || dist <= maxD) {
+            // match found at i - m + 1, if j === m - 1
             // console.log("enter match " + i + " " + j);
-            if (j == m - 1) {
+            if (j === m - 1) {
                 return i - m + 1;
             }
             i++; j++;
@@ -137,8 +139,8 @@ function bmMatch(source, pattern, maxDist = maxDistance) {
         if (pattern[j] != source[i]) {
             dist++;
         }
-        if (pattern[j] == source[i] || dist <= maxD) {
-            if (j == 0) {
+        if (pattern[j] === source[i] || dist <= maxD) {
+            if (j === 0) {
                 // match found
                 return i;
             } else {
@@ -191,7 +193,7 @@ function Distance(source, pattern) {
         }
         // console.log("distance : " + distance);
     }
-    if (ns == np) {
+    if (ns === np) {
         return hammingDistance(source, pattern);
     }
     return distance;
@@ -398,15 +400,19 @@ function getIdResponse(question, database, algorithm){
         // add to ListOfSim
         dist  = Distance(source, pattern);
         addSimilarity(idx, dist, ListOfSim);
+        console.log("source: " + source, "pattern: " + pattern, "idx: " + idx, "question: " + question, "dist: " + dist);
     }
     // first: top one at least 90% similar
     let m = question.length; // length of question
     let similarity_question = m - ListOfSim[0][1];
+    console.log("dist: " + ListOfSim[0][1]);
     similarity_question = similarity_question / m; 
+    console.log("similarity_question: " + similarity_question, "maxSimilarity: " + maxSimilarity);
     if (similarity_question >= maxSimilarity){
         return [true, ListOfSim[0][0]];
     }
     // second: top three in order of similarity
+    console.log("ListOfSim: " + ListOfSim);
     return [false, ListOfSim];
 }
 
@@ -485,13 +491,13 @@ let myArray = [
     { question: 'Ibukota Inggris', answer: 'London' },
     { question: '1234567890', answer: 'My n is 10.'}
   ];
-let question = "where dof";
-let algorithm = bmMatch;
-console.log("\nData: ");
-for (let i = 0; i < myArray.length; i++) {
-    console.log(i + ". " + "question: " + myArray[i].question + ", answer: " + myArray[i].answer);
-}
-let result = getIdResponse(question, myArray, bmMatch);
+// let question = "where dof";
+// let algorithm = bmMatch;
+// console.log("\nData: ");
+// for (let i = 0; i < myArray.length; i++) {
+//     console.log(i + ". " + "question: " + myArray[i].question + ", answer: " + myArray[i].answer);
+// }
+// let result = getIdResponse(question, myArray, bmMatch);
 
 // console.log("\nQuestion: " + question);
 // console.log(result[0]);
@@ -505,18 +511,19 @@ let result = getIdResponse(question, myArray, bmMatch);
 //     }
 // }
 
-question = "what is your n?";
-result = getIdResponse(question, myArray, bmMatch);
-console.log("\nQuestion: " + question);
-console.log(result[0]);
-console.log(result[1]);
-if (result[0]){
-    console.log(myArray[result[1]].answer);
-}
-else {
-    for (let i = 0; i < 3; i++) {
-        console.log(myArray[result[1][i][0]].answer);
-    }
-}
+// question = "is your ngh";
+// result = getIdResponse(question, myArray, bmMatch);
+// console.log("\nQuestion: " + question);
+// console.log(result[0]);
+// console.log(result[1]);
+// if (result[0]){
+//     console.log(myArray[result[1]].answer);
+// }
+// else {
+//     for (let i = 0; i < 3; i++) {
+//         console.log(result);
+//         console.log(myArray[result[1][i][0]].answer);
+//     }
+// }
 
 module.exports = {calculate, getDayName, getIdResponse, bmMatch, kmpMatch}
