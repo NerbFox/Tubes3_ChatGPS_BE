@@ -14,6 +14,8 @@ async function getResponse(req, res) {
   // console.log(req.query);
   const typeArray = classification(req.query.question)[0];
   const questionArray = classification(req.query.question)[1];
+  console.log(questionArray)
+  console.log(typeArray)
   // console.log(typeArray, questionArray);
   let i = 0;
   let prevQues;
@@ -34,10 +36,11 @@ async function getResponse(req, res) {
     if (typeArray[type] == 3) {
       const regex = /(.+)\s+dengan jawaban\s+(.+)/i;
       const match = questionArray[i].match(regex);
-      console.log(match)
+      // console.log(match[1], match[2])
       if(match){
         const question = match[1].trim();
-        const answer = match[2];
+        let answer = match[2];
+        answer = answer.replace(/\.$/, "");
         const questions = await Question.find({});
         let searchRes;
         try {
@@ -46,38 +49,35 @@ async function getResponse(req, res) {
           console.error(err);
         }
         // console.log(searchRes);
-        if (match) {
-          if (searchRes[0]) {
-            let partResponse = `Pertanyaan "${
-              questions[searchRes[1]].question
-            }" sudah ada, jawaban diganti menjadi ${answer}\n`;
-            // console.log(questions[searchRes[1]].id);
-            let id = questions[searchRes[1]].id;
-            //update jawaban instead of nambah baru
-            let question = await Question.findOneAndUpdate(
-              { _id: id },
-              { answer },
-              { new: true }
-            );
-            finalResponse = finalResponse + partResponse;
-          } else {
-            let partResponse = `Pertanyaan "${question}" berhasil ditambah\n`;
-            const addedQuestion = new Question({
-              question: question,
-              answer: answer,
+        if (searchRes[0]) {
+          let partResponse = `Pertanyaan "${
+            questions[searchRes[1]].question
+          }" sudah ada, jawaban diganti menjadi ${answer}\n`;
+          // console.log(questions[searchRes[1]].id);
+          let id = questions[searchRes[1]].id;
+          //update jawaban instead of nambah baru
+          let question = await Question.findOneAndUpdate(
+            { _id: id },
+            { answer },
+            { new: true }
+          );
+          finalResponse = finalResponse + partResponse;
+        } else {
+          let partResponse = `Pertanyaan "${question}" berhasil ditambah\n`;
+          const addedQuestion = new Question({
+            question: question,
+            answer: answer,
+          });
+          finalResponse = finalResponse + partResponse;
+          addedQuestion
+            .save()
+            .then(() => {
+              console.log("success adding data");
+            })
+            .catch((err) => {
+              console.error(err);
             });
-            finalResponse = finalResponse + partResponse;
-            addedQuestion
-              .save()
-              .then(() => {
-                console.log("success adding data");
-              })
-              .catch((err) => {
-                console.error(err);
-              });
-          }
-        }
-
+        } 
       }
     }
     if (typeArray[type] == 4) {
@@ -176,3 +176,4 @@ async function saveHistory(req, res) {
 }
 
 module.exports = { getResponse, getAllSession, addSession, saveHistory };
+

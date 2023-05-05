@@ -8,7 +8,7 @@ dummyDb = [
   ];
   
   const inputDummy =
-    " hapus pertanyaan apakah itb susah? dan hapus pertanyaan rava kece ga? dan tambah pertanyaan dengan jawaban kaga dan tambah pertanyaan rava kece ga? dengan jawaban iyalah masa engga dan hitung 50 * 2 dan 40 * 2 dan tentukan tanggal 20/02/2023 dan 20/03/2023 dan apakah itb gampang?";
+    " tambah pertanyaan apa aku dan dia? dengan jawaban temenan aja. dan 5*2";
     // -1+1+7-8+(9*4)+5*2*3+7*(5/3)+2*(5*(5*2+2 2(5*(5*2+2)))+(5*2) -1+1+5+2 -1+1
   
   function classification(question) {
@@ -23,8 +23,9 @@ dummyDb = [
 
 
     const dateRegex = /\d{2,4}[-/\s]\d{2}[-/\s]\d{2,4}/g;
-    const addQueryRegex = /(?<=tambah pertanyaan).*?(?= dan|$)/gi;
-    const eraseQueryRegex = /(?<=hapus pertanyaan).*?(?= dan|$)/gi;
+    const addQueryRegex =  /(?<=tambah pertanyaan).*?(?=\.\s|$)/gi // /(?<=tambah pertanyaan).*?(?=tambah pertanyaan|$)/gis
+    // /(?<=tambah pertanyaan).*?(?= dan|$)/gi;
+    const eraseQueryRegex = /(?<=hapus pertanyaan).*?(?=\.\s|$)/gi// /(?<=hapus pertanyaan).*?(?= dan|$)/gi;
     const questionWithAndRegex = /.+?([.?!]\s*|$)/g;
     const questionRegex = /.+?(?:(?:[.?!]\s*)|(?:dan\s+)|$)/g;
     let equationMatches = question.match(equationRegex);
@@ -67,6 +68,8 @@ dummyDb = [
         questionArray.push(addQueryMatches[add]);
       }
     }
+    console.log("apa ini", addQueryMatches)
+    console.log(questionMatches)
   
     if (eraseQueryMatches != null) {
       for (let era in eraseQueryMatches) {
@@ -92,6 +95,7 @@ dummyDb = [
           const substring = 'dan';
           let resQues = trim.replace(new RegExp('^' + substring + '|' + substring + '$', 'g'), '');
           resQues = resQues.trim()
+          resQues = resQues.replace(/\.$/, "");
           // typeArray.push(5);
           // questionArray.push(resQues);
           notFilQues.push(resQues);
@@ -112,26 +116,24 @@ dummyDb = [
           const substring = 'dan';
           let resQues = trim.replace(new RegExp('^' + substring + '|' + substring + '$', 'g'), '');
           resQues = resQues.trim()
+          resQues = resQues.replace(/\.$/, "");
           andQues.push(resQues);
           // typeArray.push(5);
           // questionArray.push(resQues);
         }
       }
       //filter questions
-      console.log(notFilQues)
       if(addQueryMatches != null){
         for(let i in addQueryMatches){
           notFilQues = notFilQues.filter(item => !addQueryMatches[i].includes(item));
+          andQues = andQues.filter(item => !addQueryMatches[i].includes(item));
         }
       }
-      console.log(andQues)
-      console.log(notFilQues)
       if(andQues != null){
         for(let i in andQues){
           notFilQues = notFilQues.filter(item => !andQues[i].includes(item));
         }
       }
-      console.log(notFilQues)
       questionArray = questionArray.concat(notFilQues)
       questionArray = questionArray.concat(andQues)
       let n = notFilQues.length + andQues.length
@@ -146,13 +148,11 @@ dummyDb = [
     // console.log(eraseQueryMatches)
     // console.log(questionMatches, questionMatches)
     // console.log(filteredQM)
-    console.log(typeArray)
-    console.log(questionArray)
     // questionArray = [...new Set(questionArray)];
     return [typeArray, questionArray];
   }
   
-  classification(inputDummy)
+  // classification(inputDummy)
   module.exports = { classification };
   
   
