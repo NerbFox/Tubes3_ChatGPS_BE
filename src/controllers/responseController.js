@@ -89,6 +89,11 @@ async function getResponse(req, res) {
       let question = questionArray[i].trim();
       question = question.replace(/\.$/, "");
       // console.log(questions);
+      if(question === ''){
+        let partResponse = `Query pengurangan salah, pastikan ada pertanyaan\n`;
+        finalResponse = finalResponse + partResponse
+        continue
+      }
       let id;
       let found = isThereQuestion(question, questions); // exist or not in database
       let searchRes = getIdResponse(
@@ -109,7 +114,12 @@ async function getResponse(req, res) {
     if (typeArray[type] === 5) {
       if (prevQues != questionArray[i]) {
         let id;
-        const question = questionArray[i].trim();
+        let question = questionArray[i].trim();
+        question = question.replace(/\.$/, "");
+        console.log(question)
+        if(question === ''){
+          continue
+        }
         const questions = await Question.find({});
         let searchRes = getIdResponse(
           question,
