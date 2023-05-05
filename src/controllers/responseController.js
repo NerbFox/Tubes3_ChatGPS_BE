@@ -82,7 +82,13 @@ async function getResponse(req, res) {
               console.error(err);
             });
         } 
+      }else{
+        let partResponse = `Query penambahan "${
+          questionArray[i]
+        }" salah, pastikan ada pertanyaan sekaligus jawaban\n`;
+        finalResponse = finalResponse + partResponse
       }
+
     }
     if (typeArray[type] === 4) {
       const questions = await Question.find({});
