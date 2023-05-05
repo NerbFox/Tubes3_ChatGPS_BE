@@ -48,7 +48,7 @@ async function getResponse(req, res) {
         let found; 
         try {
           found = isThereQuestion(question, questions); // exist or not in database
-          searchRes = getIdResponse(question, questions, kmpMatch);
+          searchRes = getIdResponse(question, questions, iskmp == "true" ? kmpMatch : bmMatch);
         } catch (err) {
           console.error(err);
         }
