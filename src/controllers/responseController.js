@@ -34,46 +34,50 @@ async function getResponse(req, res) {
     if (typeArray[type] == 3) {
       const regex = /(.+)\s+dengan jawaban\s+(.+)/i;
       const match = questionArray[i].match(regex);
-      const question = match[1].trim();
-      const answer = match[2];
-      const questions = await Question.find({});
-      let searchRes;
-      try {
-        searchRes = getIdResponse(question, questions, kmpMatch);
-      } catch (err) {
-        console.error(err);
-      }
-      // console.log(searchRes);
-      if (match) {
-        if (searchRes[0]) {
-          let partResponse = `Pertanyaan "${
-            questions[searchRes[1]].question
-          }" sudah ada, jawaban diganti menjadi ${answer}\n`;
-          // console.log(questions[searchRes[1]].id);
-          let id = questions[searchRes[1]].id;
-          //update jawaban instead of nambah baru
-          let question = await Question.findOneAndUpdate(
-            { _id: id },
-            { answer },
-            { new: true }
-          );
-          finalResponse = finalResponse + partResponse;
-        } else {
-          let partResponse = `Pertanyaan "${question}" berhasil ditambah\n`;
-          const addedQuestion = new Question({
-            question: question,
-            answer: answer,
-          });
-          finalResponse = finalResponse + partResponse;
-          addedQuestion
-            .save()
-            .then(() => {
-              console.log("success adding data");
-            })
-            .catch((err) => {
-              console.error(err);
-            });
+      console.log(match)
+      if(match){
+        const question = match[1].trim();
+        const answer = match[2];
+        const questions = await Question.find({});
+        let searchRes;
+        try {
+          searchRes = getIdResponse(question, questions, kmpMatch);
+        } catch (err) {
+          console.error(err);
         }
+        // console.log(searchRes);
+        if (match) {
+          if (searchRes[0]) {
+            let partResponse = `Pertanyaan "${
+              questions[searchRes[1]].question
+            }" sudah ada, jawaban diganti menjadi ${answer}\n`;
+            // console.log(questions[searchRes[1]].id);
+            let id = questions[searchRes[1]].id;
+            //update jawaban instead of nambah baru
+            let question = await Question.findOneAndUpdate(
+              { _id: id },
+              { answer },
+              { new: true }
+            );
+            finalResponse = finalResponse + partResponse;
+          } else {
+            let partResponse = `Pertanyaan "${question}" berhasil ditambah\n`;
+            const addedQuestion = new Question({
+              question: question,
+              answer: answer,
+            });
+            finalResponse = finalResponse + partResponse;
+            addedQuestion
+              .save()
+              .then(() => {
+                console.log("success adding data");
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+          }
+        }
+
       }
     }
     if (typeArray[type] == 4) {
