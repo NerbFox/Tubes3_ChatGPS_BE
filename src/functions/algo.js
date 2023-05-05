@@ -478,39 +478,39 @@ function getIdResponse(question, database, algorithm) {
 // let index2 = bmMatch(source, pattern);
 // console.log(index2);
 
-// // console.log("\nCalculator");
-// // let str = "kalkulasikan ini 3*((1   + 1) ^3)*(7+3)+1";
-// // console.log(calculate(str));
+// console.log("\nCalculator");
+// let str = "kalkulasikan ini 3*((1   + 1) ^3)*(7+3)+1";
+// console.log(calculate(str));
 
-// // console.log("\nCalender");
-// // let str2 = "25-08/2053";
-// // console.log(getDayName(str2));
-// // let str3 = "2023/08-25";
-// // console.log(getDayName(str3));
-// // let str4 = "2023p08-25";
-// // if (getDayName(str4) == undefined){
-// //     console.log("Wrong format");
-// // } else {
-// // console.log(getDayName(str4));
-// // }
-// // let str5 = "1-01-1";
-// // console.log(getDayName(str5));
+// console.log("\nCalender");
+// let str2 = "25-08/2053";
+// console.log(getDayName(str2));
+// let str3 = "2023/08-25";
+// console.log(getDayName(str3));
+// let str4 = "2023p08-25";
+// if (getDayName(str4) == undefined){
+//     console.log("Wrong format");
+// } else {
+// console.log(getDayName(str4));
+// }
+// let str5 = "1-01-1";
+// console.log(getDayName(str5));
 
-// // let str6 = "30-02-2023";
-// // console.log(getDayName(str6));
+// let str6 = "30-02-2023";
+// console.log(getDayName(str6));
 
-// // pattern = "jbAabfC";
-// // pattern = pattern.toLowerCase();
-// // console.log("h distance: " + hammingDistance(source, pattern));
-// // console.log("distance: " + Distance(source, pattern));
+// pattern = "jbAabfC";
+// pattern = pattern.toLowerCase();
+// console.log("h distance: " + hammingDistance(source, pattern));
+// console.log("distance: " + Distance(source, pattern));
 
-// // pattern = "KKabaabacaBaabaasarabaabacg";
-// // source = source.toLowerCase();
-// // pattern = pattern.toLowerCase();
-// // console.log("\npattern: " + pattern);
-// // console.log("source: " + source);
-// // console.log("h distance: " + hammingDistance(source, pattern));
-// // console.log("distance: " + Distance(source, pattern));
+// pattern = "KKabaabacaBaabaasarabaabacg";
+// source = source.toLowerCase();
+// pattern = pattern.toLowerCase();
+// console.log("\npattern: " + pattern);
+// console.log("source: " + source);
+// console.log("h distance: " + hammingDistance(source, pattern));
+// console.log("distance: " + Distance(source, pattern));
 
 // let myArray = [
 //     { question: 'What is your name?', answer: 'My name is John.' },
