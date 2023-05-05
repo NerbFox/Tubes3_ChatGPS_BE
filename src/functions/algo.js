@@ -463,13 +463,13 @@ function getIdResponse(question, database, algorithm) {
 
 function isThereQuestion(question, database) {
     // search for exact question
-    // return boolean and (index of database or list of index of database)
+    // return boolean
     let found = false;
     question = question.toLowerCase();
     for (let idx = 0; idx < database.length; idx++) {
         qDb = database[idx].question;
         qDb = qDb.toLowerCase();
-        if (qDb === question) {
+        if (hammingDistance(question, qDb) == 0) {
             found = true;
             break;
         }
@@ -590,4 +590,4 @@ let myArray = [
 //     }
 // }
 
-module.exports = { calculate, getDayName, getIdResponse, bmMatch, kmpMatch };
+module.exports = { calculate, getDayName, getIdResponse, bmMatch, kmpMatch, isThereQuestion };
