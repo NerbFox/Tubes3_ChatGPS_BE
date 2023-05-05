@@ -12,6 +12,7 @@ const {
 async function getResponse(req, res) {
   // const { question } = req.body;
   // console.log(req.query);
+  const { iskmp } = req.query;
   const typeArray = classification(req.query.question)[0];
   const questionArray = classification(req.query.question)[1];
   // console.log(typeArray, questionArray);
@@ -39,7 +40,11 @@ async function getResponse(req, res) {
       const questions = await Question.find({});
       let searchRes;
       try {
-        searchRes = getIdResponse(question, questions, kmpMatch);
+        searchRes = getIdResponse(
+          question,
+          questions,
+          iskmp == "true" ? kmpMatch : bmMatch
+        );
       } catch (err) {
         console.error(err);
       }
@@ -81,7 +86,11 @@ async function getResponse(req, res) {
       const question = questionArray[i].trim();
       // console.log(questions);
       let id;
-      let searchRes = getIdResponse(question, questions, kmpMatch);
+      let searchRes = getIdResponse(
+        question,
+        questions,
+        iskmp == "true" ? kmpMatch : bmMatch
+      );
       if (searchRes[0]) {
         id = questions[searchRes[1]].id;
         let partResponse = `Pertanyaan "${question}" telah dihapus\n`;
@@ -97,28 +106,32 @@ async function getResponse(req, res) {
         let id;
         const question = questionArray[i].trim();
         const questions = await Question.find({});
-        let searchRes = getIdResponse(question, questions, kmpMatch);
+        let searchRes = getIdResponse(
+          question,
+          questions,
+          iskmp == "true" ? kmpMatch : bmMatch
+        );
         if (searchRes[0]) {
           id = questions[searchRes[1]].id;
           let answer = questions[searchRes[1]].answer;
           let partResponse = `Jawaban untuk "${question}" adalah "${answer}"\n`;
           finalResponse = finalResponse + partResponse;
-        }
-        else {
+        } else {
           // output 3 jawaban terdekat
-          finalResponse += 'Pertanyaan tidak ditemukan di database\n'
-          finalResponse += 'Apakah maksud anda:\n'
+          finalResponse += "Pertanyaan tidak ditemukan di database\n";
+          finalResponse += "Apakah maksud anda:\n";
           if (questions.length < 3) {
             for (let i = 0; i < questions.length; i++) {
               console.log(questions[searchRes[1][i][0]]);
-              let partResponse = i+1 + '. ' + questions[searchRes[1][i][0]].question + '\n'
+              let partResponse =
+                i + 1 + ". " + questions[searchRes[1][i][0]].question + "\n";
               finalResponse = finalResponse + partResponse;
             }
-          }
-          else{
+          } else {
             for (let i = 0; i < 3; i++) {
               console.log(searchRes);
-              let partResponse = i+1 + '. ' + questions[searchRes[1][i][0]].question + '\n'
+              let partResponse =
+                i + 1 + ". " + questions[searchRes[1][i][0]].question + "\n";
               finalResponse = finalResponse + partResponse;
             }
           }

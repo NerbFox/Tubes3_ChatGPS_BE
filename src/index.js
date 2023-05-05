@@ -7,6 +7,7 @@ const {
   saveHistory,
 } = require("./controllers/responseController.js");
 require("dotenv").config({ path: "./config/.env" });
+
 const cors = require("cors");
 const app = express();
 
