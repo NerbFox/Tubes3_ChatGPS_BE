@@ -29,7 +29,7 @@ async function start() {
     await mongoose.connect(process.env.MONGODB_URI, {
       connectTimeoutMS: 300000,
     });
-    const port = process.env.PORT || 5000;
+    const port = process.env.PORT || 5001;
     app.listen(port, console.log(`listening on port ${port}`));
   } catch (err) {
     console.log(err);

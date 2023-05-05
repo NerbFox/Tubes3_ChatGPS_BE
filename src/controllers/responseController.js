@@ -15,7 +15,7 @@ async function getResponse(req, res) {
   const { iskmp } = req.query;
   const typeArray = classification(req.query.question)[0];
   const questionArray = classification(req.query.question)[1];
-  console.log(questionArray)
+  console.log(req.query)
   console.log(typeArray)
   // console.log(typeArray, questionArray);
   let i = 0;
@@ -118,7 +118,7 @@ async function getResponse(req, res) {
           finalResponse = finalResponse + partResponse;
         } else {
           // output 3 jawaban terdekat
-          finalResponse += "Pertanyaan tidak ditemukan di database\n";
+          finalResponse += `Pertanyaan ${questionArray[i]} tidak ditemukan di database\n`;
           finalResponse += "Apakah maksud anda:\n";
           if (questions.length < 3) {
             for (let i = 0; i < questions.length; i++) {

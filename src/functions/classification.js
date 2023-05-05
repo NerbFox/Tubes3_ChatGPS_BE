@@ -8,7 +8,7 @@ dummyDb = [
   ];
   
   const inputDummy =
-    " tambah pertanyaan apa aku dan dia? dengan jawaban temenan aja. dan 5*2";
+    "10/20/2023/20";
     // -1+1+7-8+(9*4)+5*2*3+7*(5/3)+2*(5*(5*2+2 2(5*(5*2+2)))+(5*2) -1+1+5+2 -1+1
   
   function classification(question) {
@@ -22,7 +22,7 @@ dummyDb = [
     // /(\((.*?)\)?|\d+(\.\d+)?)(\s*[-+*/(^]\s*(\((.*?)\)|\d+(\.\d+)?))+(\))*/g
 
 
-    const dateRegex = /\d{2,4}[-/\s]\d{2}[-/\s]\d{2,4}/g;
+    const dateRegex = /\d{2,4}[-/]\d{1,2}[-/]\d{2,4}/g;
     const addQueryRegex =  /(?<=tambah pertanyaan).*?(?=\.\s|$)/gi // /(?<=tambah pertanyaan).*?(?=tambah pertanyaan|$)/gis
     // /(?<=tambah pertanyaan).*?(?= dan|$)/gi;
     const eraseQueryRegex = /(?<=hapus pertanyaan).*?(?=\.\s|$)/gi// /(?<=hapus pertanyaan).*?(?= dan|$)/gi;
@@ -40,6 +40,19 @@ dummyDb = [
         (item) => !dateMatches.includes(item)
       );
     }
+    for(let eq in equationMatches){
+        for(let date in dateMatches){
+          if (equationMatches[eq].includes(dateMatches[date])) {
+              dateMatches.splice(date, 1);
+            }
+        }
+      }
+    
+    // for (let i = equationMatches.length - 1; i >= 0; i--) {
+    //   if (str.includes(arr[i])) {
+    //     arr.splice(i, 1);
+    //   }
+    // }
     // console.log(questionMatches)
     // console.log(questionWithAndMatches)
     if (dateMatches != null) {
@@ -68,9 +81,6 @@ dummyDb = [
         questionArray.push(addQueryMatches[add]);
       }
     }
-    console.log("apa ini", addQueryMatches)
-    console.log(questionMatches)
-  
     if (eraseQueryMatches != null) {
       for (let era in eraseQueryMatches) {
         typeArray.push(4);
@@ -78,9 +88,7 @@ dummyDb = [
       }
     }
     if (questionMatches != null && questionWithAndMatches != null) {
-      // console.log(questionMatches.length)
       for (i = 0; i < questionMatches.length; i++) {
-        // console.log(i)
         if (
           questionMatches[i].match(equationRegex) ||
           questionMatches[i].match(dateRegex) ||
@@ -89,8 +97,6 @@ dummyDb = [
         ) {
           continue;
         } else {
-          console.log("masuk")
-          console.log(questionMatches[i])
           let trim = questionMatches[i].trim()
           const substring = 'dan';
           let resQues = trim.replace(new RegExp('^' + substring + '|' + substring + '$', 'g'), '');
@@ -144,6 +150,7 @@ dummyDb = [
     
     // console.log(equationMatches)
     // console.log(dateMatches)
+    // console.log(questionArray)
     // console.log(addQueryMatches)
     // console.log(eraseQueryMatches)
     // console.log(questionMatches, questionMatches)
@@ -152,7 +159,9 @@ dummyDb = [
     return [typeArray, questionArray];
   }
   
-  // classification(inputDummy)
+  classification(inputDummy)
   module.exports = { classification };
+
+  
   
   
