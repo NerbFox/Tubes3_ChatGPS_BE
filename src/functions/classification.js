@@ -1,5 +1,4 @@
 
-  
   function classification(question) {
     //cocokin string input ke yang ada di db, kalo cocok update jawaban, kalo ngga cocok tambahin
     let typeArray = [];
@@ -104,6 +103,12 @@
           andQues = andQues.filter(item => !addQueryMatches[i].includes(item));
         }
       }
+      if(eraseQueryMatches != null){
+        for(let i in eraseQueryMatches){
+          notFilQues = notFilQues.filter(item => !eraseQueryMatches[i].includes(item));
+          andQues = andQues.filter(item => !eraseQueryMatches[i].includes(item));
+        }
+      }
       if(andQues != null){
         for(let i in andQues){
           notFilQues = notFilQues.filter(item => !andQues[i].includes(item));
@@ -116,11 +121,11 @@
       typeArray = typeArray.concat(filledArr);
 
     }
-    
 
     return [typeArray, questionArray];
   }
   
+
   module.exports = { classification };
 
   
