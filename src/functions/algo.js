@@ -70,7 +70,7 @@ function kmpMatch(source, pattern, maxDist = maxDistance) {
   // array of answer posibilities
   let answers = [];
 
-  console.log("kmpMatch");
+// console.log("kmpMatch");
   // initialize variables
   let n = source.length;
   let m = pattern.length;
@@ -79,10 +79,10 @@ function kmpMatch(source, pattern, maxDist = maxDistance) {
   let maxD = Math.round(maxDist * m);
   let i = 0;
   let j = 0;
-  console.log("maxD : " + maxD);
-  console.log("border : " + border);
-  console.log("length source  : " + n);
-  console.log("length pattern : " + m);
+// console.log("maxD : " + maxD);
+// console.log("border : " + border);
+// console.log("length source  : " + n);
+// console.log("length pattern : " + m);
   // search for pattern in source
   while (i < n) {
     // console.log("i : " + i);
@@ -128,7 +128,7 @@ function buildLast(pattern) {
 /* The Boyer-Moore Algorithm */
 // Fungsi untuk mencari pattern dalam source dengan algoritma Boyer-Moore. Algoritma ini menggunakan last occurence dari setiap karakter dalam pattern untuk mempercepat pencarian pattern dalam source.
 function bmMatch(source, pattern, maxDist = maxDistance) {
-  console.log("bmMatch");
+// console.log("bmMatch");
   // initialize variables
   let last = buildLast(pattern);
   let n = source.length;
@@ -137,9 +137,9 @@ function bmMatch(source, pattern, maxDist = maxDistance) {
   let maxD = Math.round(maxDist * m);
   let i = m - 1;
   let j = m - 1;
-  console.log("maxD : " + maxD);
-  console.log("length source  : " + n);
-  console.log("length pattern : " + m);
+// console.log("maxD : " + maxD);
+// console.log("length source  : " + n);
+// console.log("length pattern : " + m);
   // search for pattern in source
   if (i > n - 1) {
     // pattern is longer than source
@@ -170,6 +170,7 @@ function bmMatch(source, pattern, maxDist = maxDistance) {
 }
 
 /* Hamming Distance */
+// Fungsi untuk menghitung hamming distance dari dua string. Hamming distance adalah jumlah karakter yang berbeda dari dua string yang memiliki panjang yang sama.
 function hammingDistance(s1, s2) {
   let n = s1.length;
   let m = s2.length;
@@ -187,6 +188,7 @@ function hammingDistance(s1, s2) {
 }
 
 // Distance in hammingDistance with source and pattern
+// Fungsi untuk mencari jarak terdekat dari pattern dengan source. Jarak terdekat adalah hamming distance terkecil dari pattern dengan substring dari source yang memiliki panjang yang sama dengan pattern.
 function Distance(source, pattern) {
   let ns = source.length;
   let np = pattern.length;
@@ -237,7 +239,7 @@ function calculate(expression) {
     
   // Convert the expression string to an array of tokens
   let tokens = expression.match(/\d+|\+|\-|\*|\/|\^|\(|\)/g);
-  console.log("tokens : " + tokens);
+// console.log("tokens : " + tokens);
 
   // change if there is negative number 
   if (tokens[0]=='-'){
@@ -286,7 +288,7 @@ function calculate(expression) {
     "/": 2,
     "^": 3,
   };
-  console.log("tokens.length : " + tokens.length);
+// console.log("tokens.length : " + tokens.length);
   for (let i = 0; i < tokens.length; i++) {
     let token = tokens[i];
     // console.log("token : " + token);
@@ -313,7 +315,7 @@ function calculate(expression) {
       operatorStack.push(token);
     }
   }
-  console.log("outputQueue : " + outputQueue);
+// console.log("outputQueue : " + outputQueue);
 
   while (operatorStack.length > 0) {
     outputQueue.push(operatorStack.pop());
@@ -393,6 +395,7 @@ function getDayName(str) {
 // question berisi string yang berisi pertanyaan dari user
 // algorithm berisi string yang berisi function algoritma yang digunakan untuk menjawab pertanyaan tersebut
 
+// Fungsi untuk mencari jawaban dari pertanyaan yang diberikan oleh user dengan menggunakan algoritma yang dipilih oleh user.
 function getIdResponse(question, database, algorithm) {
   // search for exact question
   // return boolean and (index of database or list of index of database)
@@ -441,32 +444,32 @@ function getIdResponse(question, database, algorithm) {
     // add to ListOfSim
     dist = Distance(source, pattern);
     addSimilarity(idx, dist, ListOfSim);
-    console.log(
+  // console.log(
       "source: " + source,
       "pattern: " + pattern,
       "idx: " + idx,
       "question: " + question,
       "dist: " + dist
-    );
+    // );
   }
   // first: top one at least 90% similar
   let m = question.length; // length of question
   let similarity_question = m - ListOfSim[0][1];
-  console.log("dist: " + ListOfSim[0][1]);
+// console.log("dist: " + ListOfSim[0][1]);
   similarity_question = similarity_question / m;
-  console.log(
+// console.log(
     "similarity_question: " + similarity_question,
     "maxSimilarity: " + maxSimilarity
-  );
+//   );
   if (similarity_question >= maxSimilarity) {
     return [true, ListOfSim[0][0]];
   }
   // second: top three in order of similarity
-  console.log("ListOfSim: " + ListOfSim);
+// console.log("ListOfSim: " + ListOfSim);
   return [false, ListOfSim];
 }
 
-
+// Fungsi untuk mengecek apakah pertanyaan yang diberikan oleh user sudah ada di database atau belum dengan menggunakan algoritma hammingDistance.
 function isThereQuestion(question, database) {
     // search for exact question
     // return boolean
@@ -526,7 +529,7 @@ function isThereQuestion(question, database) {
 // console.log(getDayName(str3));
 // let str4 = "2023p08-25";
 // if (getDayName(str4) == undefined){
-//     console.log("Wrong format");
+//   // console.log("Wrong format");
 // } else {
 // console.log(getDayName(str4));
 // }
@@ -565,7 +568,7 @@ let myArray = [
 // let algorithm = bmMatch;
 // console.log("\nData: ");
 // for (let i = 0; i < myArray.length; i++) {
-//     console.log(i + ". " + "question: " + myArray[i].question + ", answer: " + myArray[i].answer);
+//   // console.log(i + ". " + "question: " + myArray[i].question + ", answer: " + myArray[i].answer);
 // }
 // let result = getIdResponse(question, myArray, bmMatch);
 
@@ -573,11 +576,11 @@ let myArray = [
 // console.log(result[0]);
 // console.log(result[1]);
 // if (result[0]){
-//     console.log(myArray[result[1]].answer);
+//   // console.log(myArray[result[1]].answer);
 // }
 // else {
 //     for (let i = 0; i < 3; i++) {
-//         console.log(myArray[result[1][i][0]].answer);
+//       // console.log(myArray[result[1][i][0]].answer);
 //     }
 // }
 
@@ -587,12 +590,12 @@ let myArray = [
 // console.log(result[0]);
 // console.log(result[1]);
 // if (result[0]){
-//     console.log(myArray[result[1]].answer);
+//   // console.log(myArray[result[1]].answer);
 // }
 // else {
 //     for (let i = 0; i < 3; i++) {
-//         console.log(result);
-//         console.log(myArray[result[1][i][0]].answer);
+//       // console.log(result);
+//       // console.log(myArray[result[1][i][0]].answer);
 //     }
 // }
 

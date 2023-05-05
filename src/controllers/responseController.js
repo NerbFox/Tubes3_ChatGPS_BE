@@ -70,7 +70,7 @@ async function getResponse(req, res) {
           addedQuestion
             .save()
             .then(() => {
-              console.log("success adding data");
+            // console.log("success adding data");
             })
             .catch((err) => {
               console.error(err);
@@ -126,14 +126,14 @@ async function getResponse(req, res) {
           finalResponse += "Apakah maksud anda:\n";
           if (questions.length < 3) {
             for (let i = 0; i < questions.length; i++) {
-              console.log(questions[searchRes[1][i][0]]);
+            // console.log(questions[searchRes[1][i][0]]);
               let partResponse =
                 i + 1 + ". " + questions[searchRes[1][i][0]].question + "\n";
               finalResponse = finalResponse + partResponse;
             }
           } else {
             for (let i = 0; i < 3; i++) {
-              console.log(searchRes);
+            // console.log(searchRes);
               let partResponse =
                 i + 1 + ". " + questions[searchRes[1][i][0]].question + "\n";
               finalResponse = finalResponse + partResponse;
@@ -151,7 +151,7 @@ async function getResponse(req, res) {
     }
   }
 
-  console.log(finalResponse);
+// console.log(finalResponse);
   return res.status(200).send({
     message:
       finalResponse === ""
@@ -166,7 +166,7 @@ async function getAllSession(req, res) {
 
     return res.status(200).send({ message: sessionList });
   } catch (err) {
-    console.log(err);
+  // console.log(err);
     return res.status(500).send({ message: "Internal server error" });
   }
 }
@@ -178,7 +178,7 @@ async function addSession(req, res) {
 
     return res.status(200).send({ message: savedSession._id });
   } catch (err) {
-    console.log(err);
+  // console.log(err);
     return res.status(500).send({ message: "Internal server error" });
   }
 }
@@ -206,7 +206,7 @@ async function saveHistory(req, res) {
 
     res.status(200).send({ message: "Success" });
   } catch (err) {
-    console.log(err);
+  // console.log(err);
     return res.status(500).send({ message: "Internal server error" });
   }
 }

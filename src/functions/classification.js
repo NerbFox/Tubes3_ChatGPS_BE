@@ -88,7 +88,7 @@
         ) {
           continue;
         } else {
-          console.log(questionWithAndMatches[ques])
+        // console.log(questionWithAndMatches[ques])
           let trim = questionWithAndMatches[ques].trim()
           const substring = 'dan';
           let resQues = trim.replace(new RegExp('^' + substring + '|' + substring + '$', 'g'), '');
