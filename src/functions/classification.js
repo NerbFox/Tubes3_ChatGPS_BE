@@ -5,21 +5,21 @@
     let questionArray = [];
     let notFilQues = []
     let andQues = []
+
     const equationRegex =  /(\((.*?)\)?|-?\d+(\.\d+)?)(\s*[-+*/^]\s*(\((.*?)\)|\d+(\.\d+)?))+(\))*/g
-
-
     const dateRegex = /\d{2,4}[-/]\d{1,2}[-/]\d{2,4}/g;
     const addQueryRegex =  /(?<=tambah pertanyaan).*?(?=\.\s|$)/gi
     const eraseQueryRegex = /(?<=hapus pertanyaan).*?(?=\.\s|$)/gi
     const questionWithAndRegex = /.+?([.?!]\s*|$)/g;
     const questionRegex = /.+?(?:(?:[.?!]\s*)|(?:dan\s+)|$)/g;
-    let equationMatches = question.match(equationRegex);
 
+    let equationMatches = question.match(equationRegex);
     let questionWithAndMatches = question.match(questionWithAndRegex);
     let questionMatches = question.match(questionRegex);
     const dateMatches = question.match(dateRegex);
     const addQueryMatches = question.match(addQueryRegex);
     const eraseQueryMatches = question.match(eraseQueryRegex);
+
     if (dateMatches != null && equationMatches != null) {
       equationMatches = equationMatches.filter(
         (item) => !dateMatches.includes(item)
@@ -121,10 +121,8 @@
       typeArray = typeArray.concat(filledArr);
 
     }
-
     return [typeArray, questionArray];
   }
-  
 
   module.exports = { classification };
 
