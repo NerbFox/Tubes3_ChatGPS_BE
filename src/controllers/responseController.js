@@ -7,6 +7,7 @@ const {
   getIdResponse,
   bmMatch,
   kmpMatch,
+  isThereQuestion,
 } = require("../functions/algo.js");
 
 async function getResponse(req, res) {
@@ -44,13 +45,15 @@ async function getResponse(req, res) {
         answer = answer.replace(/\.$/, "");
         const questions = await Question.find({});
         let searchRes;
+        let found; 
         try {
-          searchRes = getIdResponse(question, questions, kmpMatch);
+          found = isThereQuestion(question, questions); // exist or not in database
+          searchRes = getIdResponse(question, questions, iskmp == "true" ? kmpMatch : bmMatch);
         } catch (err) {
           console.error(err);
         }
         // console.log(searchRes);
-        if (searchRes[0]) {
+        if (found) {
           let partResponse = `Pertanyaan "${
             questions[searchRes[1]].question
           }" sudah ada, jawaban diganti menjadi ${answer}\n`;
@@ -86,12 +89,13 @@ async function getResponse(req, res) {
       const question = questionArray[i].trim();
       // console.log(questions);
       let id;
+      let found = isThereQuestion(question, questions); // exist or not in database
       let searchRes = getIdResponse(
         question,
         questions,
         iskmp == "true" ? kmpMatch : bmMatch
       );
-      if (searchRes[0]) {
+      if (found) {
         id = questions[searchRes[1]].id;
         let partResponse = `Pertanyaan "${question}" telah dihapus\n`;
         finalResponse = finalResponse + partResponse;
