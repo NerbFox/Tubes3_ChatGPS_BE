@@ -76,7 +76,6 @@ nodemon index.js
 
 
 ## Author
+* [Nigel Sahl - 13521043]
 * [Ariel Jovananda - 13521086]
-* [Mohammad Farhan Fahrezy - 13521106]
-* [Muhammad Abdul Aziz Ghazali - 13521128]
-* [Muchammad Dimas Sakti Widyatmaja - 13521160]
+* [Rava Maulana Azzikri - 13521149]
