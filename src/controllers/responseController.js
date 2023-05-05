@@ -12,6 +12,7 @@ const {
 async function getResponse(req, res) {
   // const { question } = req.body;
   // console.log(req.query);
+  const { iskmp } = req.query;
   const typeArray = classification(req.query.question)[0];
   const questionArray = classification(req.query.question)[1];
   console.log(questionArray)
@@ -23,17 +24,17 @@ async function getResponse(req, res) {
   let count = 1;
   for (let type in typeArray) {
     // console.log(typeArray[type]);
-    if (typeArray[type] == 1) {
+    if (typeArray[type] === 1) {
       let day = getDayName(questionArray[i]);
       let partResponse = `Hari untuk tanggal ${questionArray[i]} adalah ${day}\n`;
       finalResponse = finalResponse + partResponse;
     }
-    if (typeArray[type] == 2) {
+    if (typeArray[type] === 2) {
       let result = calculate(questionArray[i]);
       let partResponse = `Jawaban untuk persamaan matematika ${questionArray[i]} adalah ${result}\n`;
       finalResponse = finalResponse + partResponse;
     }
-    if (typeArray[type] == 3) {
+    if (typeArray[type] === 3) {
       const regex = /(.+)\s+dengan jawaban\s+(.+)/i;
       const match = questionArray[i].match(regex);
       // console.log(match[1], match[2])
@@ -80,12 +81,16 @@ async function getResponse(req, res) {
         } 
       }
     }
-    if (typeArray[type] == 4) {
+    if (typeArray[type] === 4) {
       const questions = await Question.find({});
       const question = questionArray[i].trim();
       // console.log(questions);
       let id;
-      let searchRes = getIdResponse(question, questions, kmpMatch);
+      let searchRes = getIdResponse(
+        question,
+        questions,
+        iskmp == "true" ? kmpMatch : bmMatch
+      );
       if (searchRes[0]) {
         id = questions[searchRes[1]].id;
         let partResponse = `Pertanyaan "${question}" telah dihapus\n`;
@@ -96,17 +101,40 @@ async function getResponse(req, res) {
         finalResponse = finalResponse + partResponse;
       }
     }
-    if (typeArray[type] == 5) {
+    if (typeArray[type] === 5) {
       if (prevQues != questionArray[i]) {
         let id;
         const question = questionArray[i].trim();
         const questions = await Question.find({});
-        let searchRes = getIdResponse(question, questions, kmpMatch);
+        let searchRes = getIdResponse(
+          question,
+          questions,
+          iskmp == "true" ? kmpMatch : bmMatch
+        );
         if (searchRes[0]) {
           id = questions[searchRes[1]].id;
           let answer = questions[searchRes[1]].answer;
           let partResponse = `Jawaban untuk "${question}" adalah "${answer}"\n`;
           finalResponse = finalResponse + partResponse;
+        } else {
+          // output 3 jawaban terdekat
+          finalResponse += "Pertanyaan tidak ditemukan di database\n";
+          finalResponse += "Apakah maksud anda:\n";
+          if (questions.length < 3) {
+            for (let i = 0; i < questions.length; i++) {
+              console.log(questions[searchRes[1][i][0]]);
+              let partResponse =
+                i + 1 + ". " + questions[searchRes[1][i][0]].question + "\n";
+              finalResponse = finalResponse + partResponse;
+            }
+          } else {
+            for (let i = 0; i < 3; i++) {
+              console.log(searchRes);
+              let partResponse =
+                i + 1 + ". " + questions[searchRes[1][i][0]].question + "\n";
+              finalResponse = finalResponse + partResponse;
+            }
+          }
         }
         // console.log("menjawab pertanyaan");
       }
