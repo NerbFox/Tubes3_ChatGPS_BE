@@ -11,20 +11,14 @@ const {
 } = require("../functions/algo.js");
 
 async function getResponse(req, res) {
-  // const { question } = req.body;
-  // console.log(req.query);
   const { iskmp } = req.query;
   const typeArray = classification(req.query.question)[0];
   const questionArray = classification(req.query.question)[1];
-  console.log(req.query)
-  console.log(typeArray)
-  // console.log(typeArray, questionArray);
   let i = 0;
   let prevQues;
   let finalResponse = "";
   let count = 1;
   for (let type in typeArray) {
-    // console.log(typeArray[type]);
     if (typeArray[type] === 1) {
       let day = getDayName(questionArray[i]);
       let partResponse = `Hari untuk tanggal ${questionArray[i]} adalah ${day}\n`;

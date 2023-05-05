@@ -1,15 +1,4 @@
-dummyDb = [
-    { q: "apa itu ibukota jakarta?", a: "jakarta bukan negara goblok" },
-    {
-      q: "rava ganteng ngga?",
-      a: "ganteng itu relatif, tapi menurut ku iya dong :3",
-    },
-    { q: "apakah itb susah?", a: "ngga gampang" },
-  ];
-  
-  const inputDummy =
-    "10/20/2023/20";
-    // -1+1+7-8+(9*4)+5*2*3+7*(5/3)+2*(5*(5*2+2 2(5*(5*2+2)))+(5*2) -1+1+5+2 -1+1
+
   
   function classification(question) {
     //cocokin string input ke yang ada di db, kalo cocok update jawaban, kalo ngga cocok tambahin
@@ -18,18 +7,15 @@ dummyDb = [
     let notFilQues = []
     let andQues = []
     const equationRegex =  /(\((.*?)\)?|-?\d+(\.\d+)?)(\s*[-+*/^]\s*(\((.*?)\)|\d+(\.\d+)?))+(\))*/g
-    // /(\((.*?)\)?|-?\d+(\.\d+)?)(\s*[-+*/(^]\s*(\((.*?)\)|\d+(\.\d+)?))+(\))*/g
-    // /(\((.*?)\)?|\d+(\.\d+)?)(\s*[-+*/(^]\s*(\((.*?)\)|\d+(\.\d+)?))+(\))*/g
 
 
     const dateRegex = /\d{2,4}[-/]\d{1,2}[-/]\d{2,4}/g;
-    const addQueryRegex =  /(?<=tambah pertanyaan).*?(?=\.\s|$)/gi // /(?<=tambah pertanyaan).*?(?=tambah pertanyaan|$)/gis
-    // /(?<=tambah pertanyaan).*?(?= dan|$)/gi;
-    const eraseQueryRegex = /(?<=hapus pertanyaan).*?(?=\.\s|$)/gi// /(?<=hapus pertanyaan).*?(?= dan|$)/gi;
+    const addQueryRegex =  /(?<=tambah pertanyaan).*?(?=\.\s|$)/gi
+    const eraseQueryRegex = /(?<=hapus pertanyaan).*?(?=\.\s|$)/gi
     const questionWithAndRegex = /.+?([.?!]\s*|$)/g;
     const questionRegex = /.+?(?:(?:[.?!]\s*)|(?:dan\s+)|$)/g;
     let equationMatches = question.match(equationRegex);
-  //   let equationWithParenthesisMatches = question.match(equationWithParenthesisRegex)
+
     let questionWithAndMatches = question.match(questionWithAndRegex);
     let questionMatches = question.match(questionRegex);
     const dateMatches = question.match(dateRegex);
@@ -47,17 +33,9 @@ dummyDb = [
             }
         }
       }
-    
-    // for (let i = equationMatches.length - 1; i >= 0; i--) {
-    //   if (str.includes(arr[i])) {
-    //     arr.splice(i, 1);
-    //   }
-    // }
-    // console.log(questionMatches)
-    // console.log(questionWithAndMatches)
+  
     if (dateMatches != null) {
       for (let date in dateMatches) {
-        // console.log(getDayName(dateMatches[date]))
         typeArray.push(1);
         questionArray.push(dateMatches[date]);
       }
@@ -65,14 +43,9 @@ dummyDb = [
   
     if (equationMatches != null) {
       for (let eq in equationMatches) {
-        // console.log(calculate(equationMatches[eq]))
           typeArray.push(2);
           questionArray.push(equationMatches[eq]);
        }
-      // for (let eq in equationWithParenthesisMatches){
-      //     typeArray.push(2);
-      //     questionArray.push(equationWithParenthesisMatches[eq]);
-      // }
     }
   
     if (addQueryMatches != null) {
@@ -101,9 +74,7 @@ dummyDb = [
           const substring = 'dan';
           let resQues = trim.replace(new RegExp('^' + substring + '|' + substring + '$', 'g'), '');
           resQues = resQues.trim()
-          resQues = resQues.replace(/\.$/, "");
-          // typeArray.push(5);
-          // questionArray.push(resQues);
+          resQues = resQues.replace(/\.$/, "");;
           notFilQues.push(resQues);
         }
       }
@@ -124,8 +95,6 @@ dummyDb = [
           resQues = resQues.trim()
           resQues = resQues.replace(/\.$/, "");
           andQues.push(resQues);
-          // typeArray.push(5);
-          // questionArray.push(resQues);
         }
       }
       //filter questions
@@ -148,18 +117,10 @@ dummyDb = [
 
     }
     
-    // console.log(equationMatches)
-    // console.log(dateMatches)
-    // console.log(questionArray)
-    // console.log(addQueryMatches)
-    // console.log(eraseQueryMatches)
-    // console.log(questionMatches, questionMatches)
-    // console.log(filteredQM)
-    // questionArray = [...new Set(questionArray)];
+
     return [typeArray, questionArray];
   }
   
-  classification(inputDummy)
   module.exports = { classification };
 
   
