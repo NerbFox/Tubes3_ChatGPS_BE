@@ -86,7 +86,8 @@ async function getResponse(req, res) {
     }
     if (typeArray[type] === 4) {
       const questions = await Question.find({});
-      const question = questionArray[i].trim();
+      let question = questionArray[i].trim();
+      question = question.replace(/\.$/, "");
       // console.log(questions);
       let id;
       let found = isThereQuestion(question, questions); // exist or not in database
