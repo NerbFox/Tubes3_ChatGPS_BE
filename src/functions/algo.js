@@ -228,8 +228,23 @@ function levenshteinDistance(s1, s2) {
 
 /* Calculator +, -, *, /, ^, (, ) from string */
 function calculate(expression) {
+    
   // Convert the expression string to an array of tokens
   let tokens = expression.match(/\d+|\+|\-|\*|\/|\^|\(|\)/g);
+  console.log("tokens : " + tokens);
+
+  // change if there is negative number 
+  if (tokens[0]=='-'){
+    tokens[0] = '0'
+    tokens[1] = '-' + tokens[1]
+    tokens.shift();
+  }
+  // change all (-a) to (0-a)
+  for (let i = 0; i < tokens.length; i++) {
+      if (tokens[i] == '(' && tokens[i+1] == '-'){
+          tokens.splice(i+1, 0, '0');
+      }
+  }
 
   // Define a function to handle exponentiation
   function power(base, exponent) {
@@ -253,7 +268,6 @@ function calculate(expression) {
       return a - b;
     }
   }
-  console.log("tokens : " + tokens);
 
   // calculate the expression using the Shunting Yard algorithm
   let outputQueue = [];
@@ -446,6 +460,23 @@ function getIdResponse(question, database, algorithm) {
   return [false, ListOfSim];
 }
 
+
+function isThereQuestion(question, database) {
+    // search for exact question
+    // return boolean and (index of database or list of index of database)
+    let found = false;
+    question = question.toLowerCase();
+    for (let idx = 0; idx < database.length; idx++) {
+        qDb = database[idx].question;
+        qDb = qDb.toLowerCase();
+        if (qDb === question) {
+            found = true;
+            break;
+        }
+    }
+    return found;
+}
+
 // let database = [1,2,3]
 // let algorithm = [1,2,3]
 // getIdResponse("apa kabar", database, algorithm);
@@ -512,14 +543,18 @@ function getIdResponse(question, database, algorithm) {
 // console.log("h distance: " + hammingDistance(source, pattern));
 // console.log("distance: " + Distance(source, pattern));
 
-// let myArray = [
-//     { question: 'What is your name?', answer: 'My name is John.' },
-//     { question: 'Where do you live?', answer: 'I live in New York.' },
-//     { question: 'What is your favorite color?', answer: 'My favorite color is blue.' },
-//     { question: 'Ibukota Indonesia', answer: 'Jakarta' },
-//     { question: 'Ibukota Inggris', answer: 'London' },
-//     { question: '1234567890', answer: 'My n is 10.'}
-//   ];
+let myArray = [
+    { question: 'What is your name?', answer: 'My name is John.' },
+    { question: 'Where do you live?', answer: 'I live in New York.' },
+    { question: 'What is your FAVORITE color?', answer: 'My favorite color is blue.' },
+    { question: 'Ibukota Indonesia', answer: 'Jakarta' },
+    { question: 'Ibukota Inggris', answer: 'London' },
+    { question: '1234567890', answer: 'My n is 10.'}
+  ];
+// let question = "WHAT is YOUR favorite color?";
+// console.log("question : " + question);
+// console.log("isThereQuestion : " + isThereQuestion(question, myArray));
+
 // let question = "where dof";
 // let algorithm = bmMatch;
 // console.log("\nData: ");
