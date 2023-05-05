@@ -8,7 +8,7 @@ dummyDb = [
   ];
   
   const inputDummy =
-    "-1+1 (7-8+(9*4)) 5*2*3 7*(5/3) 2*(5*(5*2+2 2(5*(5*2+2))) (5*2) -1+1 5+2 -1+1";
+    " hapus pertanyaan apakah itb susah? dan hapus pertanyaan rava kece ga? dan tambah pertanyaan dengan jawaban kaga dan tambah pertanyaan rava kece ga? dengan jawaban iyalah masa engga dan hitung 50 * 2 dan 40 * 2 dan tentukan tanggal 20/02/2023 dan 20/03/2023 dan apakah itb gampang?";
     // -1+1+7-8+(9*4)+5*2*3+7*(5/3)+2*(5*(5*2+2 2(5*(5*2+2)))+(5*2) -1+1+5+2 -1+1
   
   function classification(question) {
