@@ -5,6 +5,8 @@ const maxSimilarity = 0.9;
 const maxRow = 3;
 const maxCol = 2;
 
+/* addSimilarity Function */
+// Fungsi untuk menambahkan index dan dist ke ListOfSimilarity dengan penambahan yang terurut dari dist terkecil ke terbesar dan terbatas dengan 3 elemen list
 function addSimilarity(index, dist, ListOfSimilarity) {
   // add  tuple index and dist to ListOfSimilarity
   // if list empty, add to first index
@@ -36,6 +38,7 @@ function addSimilarity(index, dist, ListOfSimilarity) {
 }
 
 /* computeBorder Function for KMPMatch */
+// Fungsi untuk menghitung border dari pattern yang digunakan untuk algoritma KMP. Border adalah panjang suffix terpanjang dari prefix pattern yang merupakan prefix pattern juga.
 function computeBorder(pattern) {
   let border = [];
   border[0] = 0;
@@ -62,6 +65,7 @@ function computeBorder(pattern) {
 }
 
 /* Knuth-Morris-Pratt Algorithm */
+// Fungsi untuk mencari pattern dalam source dengan algoritma Knuth-Morris-Pratt. Algoritma ini menggunakan border function untuk menghitung border dari pattern yang digunakan untuk mempercepat pencarian pattern dalam source.
 function kmpMatch(source, pattern, maxDist = maxDistance) {
   // array of answer posibilities
   let answers = [];
@@ -110,6 +114,7 @@ function kmpMatch(source, pattern, maxDist = maxDistance) {
 }
 
 /* buildLast Function for Boyer-Moore */
+// Fungsi untuk membuat last occurence dari setiap karakter dalam pattern yang digunakan untuk algoritma Boyer-Moore. Last occurence adalah index terakhir dari suatu karakter dalam pattern.
 function buildLast(pattern) {
   // initialize array of length 256 with default value -1
   let last = Array(256).fill(-1);
@@ -121,6 +126,7 @@ function buildLast(pattern) {
   return last;
 }
 /* The Boyer-Moore Algorithm */
+// Fungsi untuk mencari pattern dalam source dengan algoritma Boyer-Moore. Algoritma ini menggunakan last occurence dari setiap karakter dalam pattern untuk mempercepat pencarian pattern dalam source.
 function bmMatch(source, pattern, maxDist = maxDistance) {
   console.log("bmMatch");
   // initialize variables

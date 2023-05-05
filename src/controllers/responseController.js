@@ -146,7 +146,11 @@ async function getResponse(req, res) {
       // console.log(prevQues);
     }
     i++;
+    if (i != typeArray.length) {
+      finalResponse += `\n`;
+    }
   }
+
   console.log(finalResponse);
   return res.status(200).send({
     message:
