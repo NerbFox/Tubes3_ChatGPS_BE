@@ -22,7 +22,7 @@ Repository ini berisi backend yang digunakan untuk tugas besar 3 ini, Repository
 │   
 │   
 └───doc
-│   Tubes3_K1_13521043_ChatGPS.pdf
+│   ChatGPS.pdf
 │  
 └───src
     │   .DS_Store
