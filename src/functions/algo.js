@@ -7,6 +7,8 @@ const maxCol = 2;
 
 /* addSimilarity Function */
 // Fungsi untuk menambahkan index dan dist ke ListOfSimilarity dengan penambahan yang terurut dari dist terkecil ke terbesar dan terbatas dengan 3 elemen list
+// Fungsi ini yaitu jika ListOfSimilarity kosong, maka akan langsung ditambahkan index dan dist ke ListOfSimilarity
+// Jika ListOfSimilarity tidak kosong dan belum penuh, maka akan ditambahkan index dan dist ke ListOfSimilarity dengan urutan ascending
 function addSimilarity(index, dist, ListOfSimilarity) {
   // add  tuple index and dist to ListOfSimilarity
   // if list empty, add to first index
@@ -64,6 +66,13 @@ function computeBorder(pattern) {
 
 /* Knuth-Morris-Pratt Algorithm */
 // Fungsi untuk mencari pattern dalam source dengan algoritma Knuth-Morris-Pratt. Algoritma ini menggunakan border function untuk menghitung border dari pattern yang digunakan untuk mempercepat pencarian pattern dalam source.
+// 1. Inisialisasi n dan m dengan panjang source dan pattern, border dengan border function dari pattern, i dengan 0, dan j dengan 0.
+// 2. Iterasi i dari 0 sampai n-1.
+// 3. Jika pattern[j] sama dengan source[i], maka:
+// 4. Jika j sama dengan m-1, maka kembalikan i-m+1. Jika tidak, maka tambahkan 1 ke i dan j.
+// 5. Jika j > 0, maka j sama dengan border[j-1]. Jika tidak, maka tambahkan 1 ke i.
+// 6. Jika iterasi sudah selesai, maka kembalikan -1 yang berarti tidak ada pattern dalam source.
+
 function kmpMatch(source, pattern, maxDist = maxDistance) {
   // array of answer posibilities
   let answers = [];
@@ -101,6 +110,10 @@ function kmpMatch(source, pattern, maxDist = maxDistance) {
 
 /* buildLast Function for Boyer-Moore */
 // Fungsi untuk membuat last occurence dari setiap karakter dalam pattern yang digunakan untuk algoritma Boyer-Moore. Last occurence adalah index terakhir dari suatu karakter dalam pattern.
+// 1. Inisialisasi array last dengan panjang 256 dengan nilai default -1.
+// 2. Iterasi i dari 0 sampai panjang pattern.
+// 3. Assign ASCII value dari karakter pattern[i] sebagai index dari array last dan assign i sebagai value dari index tersebut.
+// 4. Kembalikan array last.
 function buildLast(pattern) {
   // initialize array of length 256 with default value -1
   let last = Array(256).fill(-1);
@@ -111,8 +124,15 @@ function buildLast(pattern) {
   }
   return last;
 }
+
 /* The Boyer-Moore Algorithm */
 // Fungsi untuk mencari pattern dalam source dengan algoritma Boyer-Moore. Algoritma ini menggunakan last occurence dari setiap karakter dalam pattern untuk mempercepat pencarian pattern dalam source.
+// 1. Inisialisasi last dengan buildLast(pattern), n dengan panjang source, m dengan panjang pattern, i dengan m-1, dan j dengan m-1.
+// 2. Iterasi i dari m-1 sampai n-1.
+// 3. Jika pattern[j] sama dengan source[i], maka:
+// 4. Jika j sama dengan 0, maka kembalikan i. Jika tidak, maka kurangi 1 dari i dan j.
+// 5. Jika pattern[j] tidak sama dengan source[i], maka i sama dengan i + m - min(j, 1 + last[source[i]]), j sama dengan m - 1, dan dist sama dengan dist + 1.
+// 6. Jika iterasi sudah selesai, maka kembalikan -1 yang berarti tidak ada pattern dalam source.
 function bmMatch(source, pattern, maxDist = maxDistance) {
   // initialize variables
   let last = buildLast(pattern);
@@ -153,6 +173,12 @@ function bmMatch(source, pattern, maxDist = maxDistance) {
 
 /* Hamming Distance */
 // Fungsi untuk menghitung hamming distance dari dua string. Hamming distance adalah jumlah karakter yang berbeda dari dua string yang memiliki panjang yang sama.
+// 1. Inisialisasi n dengan panjang s1 dan m dengan panjang s2.
+// 2. Jika n tidak sama dengan m, maka kembalikan -1 yang berarti tidak ada hamming distance dari dua string tersebut.
+// 3. Iterasi i dari 0 sampai n-1.
+// 4. Jika s1[i] tidak sama dengan s2[i], maka tambahkan 1 ke distance.
+// 5. Jika iterasi sudah selesai, maka kembalikan distance.
+
 function hammingDistance(s1, s2) {
   let n = s1.length;
   let m = s2.length;
@@ -171,6 +197,14 @@ function hammingDistance(s1, s2) {
 
 // Distance in hammingDistance with source and pattern
 // Fungsi untuk mencari jarak terdekat dari pattern dengan source. Jarak terdekat adalah hamming distance terkecil dari pattern dengan substring dari source yang memiliki panjang yang sama dengan pattern.
+// 1. Inisialisasi ns dengan panjang source dan np dengan panjang pattern, distance dengan np, s1 dengan string kosong, dan s2 dengan pattern.
+// 2. Iterasi i dari 0 sampai ns-np.
+// 3. Masukan substring dari source dengan panjang np yang dimulai dari i sebagai s1.
+// 4. Hitung hamming distance dari s1 dengan s2 dan simpan sebagai distTemp.
+// 5. Jika distTemp lebih kecil dari distance, maka distance sama dengan distTemp.
+// 6. Setelah selesai iterasi, jika ns sama dengan np, maka kembalikan hamming distance dari source dengan pattern.
+// 7. Kembalikan distance.
+
 function Distance(source, pattern) {
   let ns = source.length;
   let np = pattern.length;
@@ -214,6 +248,7 @@ function levenshteinDistance(s1, s2) {
 }
 
 /* Calculator +, -, *, /, ^, (, ) from string */
+// Fungsi untuk menghitung hasil dari ekspresi matematika yang diberikan oleh user. Ekspresi matematika yang diberikan oleh user berupa string yang berisi angka, operator, dan tanda kurung. Operator yang dapat digunakan adalah +, -, *, /, dan ^. Tanda kurung yang dapat digunakan adalah ( dan ). Fungsi ini menggunakan algoritma Shunting Yard untuk mengubah ekspresi matematika dari infix menjadi postfix dan algoritma Reverse Polish Notation untuk menghitung hasil dari ekspresi matematika yang sudah berupa postfix.
 function calculate(expression) {
     
   // Convert the expression string to an array of tokens
@@ -326,6 +361,7 @@ function calculate(expression) {
 }
 
 /* Calender */
+// Fungsi untuk menghitung hari apa di tanggal yang diberikan oleh user. Fungsi ini menerima input berupa string yang berisi tanggal dengan format dd/mm/yyyy. 
 function getDayName(str) {
   /* Pengguna memasukkan input berupa tanggal, lalu chatbot akan 
     merespon dengan hari apa di tanggal tersebut. Contohnya adalah 
@@ -364,13 +400,34 @@ function getDayName(str) {
     "Sabtu",
   ];
   return namaHari[day];
+// re-arrange to correct format split "-" and "/"
+//   let temp = str.split(/[-/]/);
+//   let year = parseInt(temp[2]);
+//   let month = parseInt(temp[1]);
+//   let day = parseInt(temp[0]);
+  
+//   if (month < 3) {
+//     month += 12;
+//     year--;
+//   }
+  
+//   let q = day;
+//   let m = month;
+//   let k = year % 100;
+//   let j = Math.floor(year / 100);
+//   let h = (q + Math.floor((13 * (m + 1)) / 5) + k + Math.floor(k / 4) + Math.floor(j / 4) + 5 * j) % 7;
+//   let dayName = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+//   let namaHari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+//   console.log(namaHari[h]);
+//   return namaHari[h];
 }
 
 // database berisi element berupa object yang memiliki atribut question dan answer
 // question berisi string yang berisi pertanyaan dari user
 // algorithm berisi string yang berisi function algoritma yang digunakan untuk menjawab pertanyaan tersebut
 
-// Fungsi untuk mencari jawaban dari pertanyaan yang diberikan oleh user dengan menggunakan algoritma yang dipilih oleh user.
+// Fungsi untuk mencari jawaban dari pertanyaan yang diberikan oleh user dengan menggunakan algoritma yang dipilih oleh user. Pertama iterasi dengan algoritma yang dipilih. Kedua, jika tidak ditemukan jawaban, maka iterasi dengan fungsi Distance untuk mencari pertanyaan yang mirip dengan pertanyaan yang diberikan oleh user. Jika ditemukan pertanyaan yang mirip, maka jawab dengan jawaban dari pertanyaan yang mirip tersebut dengan 90% kemiripan. Jika tidak, maka kembalikan list pertanyaan yang mirip dengan pertanyaan yang diberikan oleh user.
+
 function getIdResponse(question, database, algorithm) {
   // search for exact question
   // return boolean and (index of database or list of index of database)
@@ -462,3 +519,5 @@ let myArray = [
   ];
 
 module.exports = { calculate, getDayName, getIdResponse, bmMatch, kmpMatch, isThereQuestion };
+
+
